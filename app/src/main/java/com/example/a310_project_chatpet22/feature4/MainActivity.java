@@ -1,12 +1,4 @@
-package com.example.a310_project_chatpet22;
-
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+package com.example.a310_project_chatpet22.feature4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,10 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.a310_project_chatpet22.R;
-import com.example.a310_project_chatpet22.feature4.Pet;
-import com.example.a310_project_chatpet22.feature4.PetInteractionController;
-import com.example.a310_project_chatpet22.feature4.PointManager;
-import com.example.a310_project_chatpet22.feature4.PointsDelta;
 
 public class MainActivity extends AppCompatActivity {
 
