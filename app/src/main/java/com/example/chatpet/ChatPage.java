@@ -1,4 +1,4 @@
-package com.example.a310_project_chatpet22;
+package com.example.chatpet;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -17,6 +17,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+//import com.example.a310_project_chatpet22.R;
+
+//import com.example.chatpet.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +37,7 @@ public class ChatPage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_chat_page);
+        setContentView(com.example.chatpet.R.layout.activity_chat_page);
 
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
 //            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
