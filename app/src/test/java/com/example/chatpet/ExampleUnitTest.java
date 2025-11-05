@@ -1,4 +1,4 @@
-package com.example.a310_project_chatpet22;
+package com.example.chatpet;
 
 import org.junit.Test;
 
