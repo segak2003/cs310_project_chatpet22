@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "310_project_chatpet22"
+rootProject.name = "chatpet"
 include(":app")
  
