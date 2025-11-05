@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.a310_project_chatpet22"
+    namespace = "com.example.chatpet"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.a310_project_chatpet22"
+        applicationId = "com.example.chatpet"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -40,4 +40,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 }
