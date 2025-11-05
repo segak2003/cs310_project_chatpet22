@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme._chatpet">
         <activity
+            android:name=".ChatPage"
+            android:exported="false" />
+        <activity
             android:name="com.example.chatpet.MainActivity"
             android:exported="true">
             <intent-filter>
