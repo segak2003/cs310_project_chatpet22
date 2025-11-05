@@ -1,4 +1,4 @@
-package com.example.a310_project_chatpet22;
+package com.example.chatpet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         // Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
         // startActivity(intent);
         // finish();
+//        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+//        startActivity(intent);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
