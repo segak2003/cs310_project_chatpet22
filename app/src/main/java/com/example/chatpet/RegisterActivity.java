@@ -117,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Registered successfully!", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, com.example.chatpet.feature4.ProfileActivity.class);
+            Intent intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("USERNAME", username);
             intent.putExtra("FULL_NAME", fullName);
             intent.putExtra("BIRTHDAY", birthday);
