@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.chatpet.feature4.PetGrowthActivity;
 
 public class ProfileActivity extends AppCompatActivity {
-    EditText etPreferredName, etPetName;
+    EditText etPetName;
     ImageView imgPetPreview;
     Button btnLeft, btnRight, btnNext;
 
@@ -26,7 +26,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        etPreferredName = findViewById(R.id.etPreferredName);
         etPetName = findViewById(R.id.etPetName);
         btnLeft = findViewById(R.id.btnLeft);
         btnRight = findViewById(R.id.btnRight);
@@ -46,24 +45,17 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> {
-            String preferredName = etPreferredName.getText().toString().trim();
             String petName = etPetName.getText().toString().trim();
             String selectedPet = petTypes[currentPetIndex];
 
             // Error handling.
-            if (preferredName.isEmpty()) {
-                etPreferredName.setError("Preferred name is required");
-                etPreferredName.requestFocus();
-                return;
-            }
-
             if (petName.isEmpty()) {
                 etPetName.setError("Pet name is required");
                 etPetName.requestFocus();
                 return;
             }
 
-            String message = "Welcome " + preferredName + "!\nYour pet " + petName + " the " + selectedPet + " is ready!";
+            String message = "Your pet " + petName + " the " + selectedPet + " is ready!";
 
             new AlertDialog.Builder(this)
                     .setTitle("Profile Created 🎉")

@@ -8,19 +8,6 @@
     android:padding="24dp"
     tools:context=".ProfileActivity">
 
-    <!-- Preferred Name Input -->
-    <EditText
-        android:id="@+id/etPreferredName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Preferred Name"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
-
-    <!-- Left Arrow Button -->
     <Button
         android:id="@+id/btnLeft"
         android:layout_width="wrap_content"
@@ -28,24 +15,23 @@
         android:text="⬅️"
         android:textSize="24sp"
         android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@id/etPreferredName"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="32dp" />
 
-    <!-- Pet Image -->
     <ImageView
         android:id="@+id/imgPetPreview"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/ic_launcher_foreground"
         android:contentDescription="Pet Preview"
-        app:layout_constraintTop_toBottomOf="@id/etPreferredName"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnLeft"
         app:layout_constraintEnd_toStartOf="@id/btnRight"
         app:layout_constraintHorizontal_chainStyle="packed"
-        android:layout_marginHorizontal="16dp" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="32dp" />
 
-    <!-- Right Arrow Button -->
     <Button
         android:id="@+id/btnRight"
         android:layout_width="wrap_content"
@@ -53,11 +39,10 @@
         android:text="➡️"
         android:textSize="24sp"
         android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@id/etPreferredName"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp" />
 
-    <!-- Pet Name Input -->
     <EditText
         android:id="@+id/etPetName"
         android:layout_width="0dp"
@@ -69,7 +54,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp" />
 
-    <!-- Next Button -->
     <Button
         android:id="@+id/btnNext"
         android:layout_width="0dp"
