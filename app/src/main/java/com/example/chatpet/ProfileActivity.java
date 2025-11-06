@@ -5,21 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.feature4.PetGrowthActivity;
 
 public class ProfileActivity extends AppCompatActivity {
-    EditText etPetName;
-    ImageView imgPetPreview;
+    EditText etPreferredName, etPetName;
+    TextView iconPetPreview;
     Button btnLeft, btnRight, btnNext;
 
     // Pet carousel
     int currentPetIndex = 0;
-    int[] petImages = {R.drawable.pibble, R.drawable.applecat, R.drawable.wimyitsdog, R.drawable.bananacat};
-    String[] petTypes = {"Pibble", "Apple Cat", "WIMYITS Dog", "Banana Cat"};
+    String[] petIcons = {"🐈", "🐉"};
+    String[] petTypes = {"CAT", "DRAGON"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,22 +29,23 @@ public class ProfileActivity extends AppCompatActivity {
         etPetName = findViewById(R.id.etPetName);
         btnLeft = findViewById(R.id.btnLeft);
         btnRight = findViewById(R.id.btnRight);
-        imgPetPreview = findViewById(R.id.imgPetPreview);
+        iconPetPreview = findViewById(R.id.iconPetPreview);
         btnNext = findViewById(R.id.btnNext);
 
         updatePetPreview();
 
         btnLeft.setOnClickListener(v -> {
-            currentPetIndex = (currentPetIndex - 1 + petImages.length) % petImages.length;
+            currentPetIndex = (currentPetIndex - 1 + petIcons.length) % petIcons.length;
             updatePetPreview();
         });
 
         btnRight.setOnClickListener(v -> {
-            currentPetIndex = (currentPetIndex + 1) % petImages.length;
+            currentPetIndex = (currentPetIndex + 1) % petIcons.length;
             updatePetPreview();
         });
 
         btnNext.setOnClickListener(v -> {
+            String preferredName = etPreferredName.getText().toString().trim();
             String petName = etPetName.getText().toString().trim();
             String selectedPet = petTypes[currentPetIndex];
 
@@ -55,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
                 return;
             }
 
-            String message = "Your pet " + petName + " the " + selectedPet + " is ready!";
+            String message = "Welcome " + preferredName + "!\nYour pet " + petName + " the " + selectedPet + " is ready!";
 
             new AlertDialog.Builder(this)
                     .setTitle("Profile Created 🎉")
@@ -63,6 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
                     .setPositiveButton("Continue", (dialog, which) -> {
                         dialog.dismiss();
                         Intent intent = new Intent(ProfileActivity.this, PetGrowthActivity.class);
+                        intent.putExtra("PET_TYPE", petTypes[currentPetIndex]);
+                        intent.putExtra("PET_NAME", petName);
                         startActivity(intent);
                     })
                     .setCancelable(false)
@@ -71,6 +74,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updatePetPreview() {
-        imgPetPreview.setImageResource(petImages[currentPetIndex]);
+        iconPetPreview.setText(petIcons[currentPetIndex]);
     }
 }
