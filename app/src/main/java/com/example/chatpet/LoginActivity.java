@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.chatpet.feature4.PetGrowthActivity;
+
 public class LoginActivity extends AppCompatActivity {
     EditText etUsername, etPassword;
     Button btnLogin;
@@ -29,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter both fields", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, ProfileActivity.class);
+                Intent intent = new Intent(this, PetGrowthActivity.class);
                 intent.putExtra("USERNAME", username);
                 startActivity(intent);
             }

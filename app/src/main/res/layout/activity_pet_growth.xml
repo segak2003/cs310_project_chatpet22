@@ -95,7 +95,6 @@
             android:max="100"
             android:progress="50"/>
 
-        <!-- buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,6 +141,7 @@
             android:id="@+id/tvReply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Say hi to your pet!"
             android:textSize="16sp"
             android:paddingTop="18dp"
