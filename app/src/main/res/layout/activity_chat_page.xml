@@ -7,7 +7,22 @@
     android:layout_height="match_parent"
     tools:context="com.example.chatpet.ChatPage">
 
-<!--    general page layout credit to ChatGPT      -->
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:text="‹"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+    <!--    general page layout credit to ChatGPT      -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
