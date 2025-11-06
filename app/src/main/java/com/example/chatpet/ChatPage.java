@@ -1,6 +1,7 @@
 package com.example.chatpet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 //import com.example.a310_project_chatpet22.R;
 
 //import com.example.chatpet.R;
+
+import com.example.chatpet.feature4.PetGrowthActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,7 @@ public class ChatPage extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewMessages);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
+        ImageButton btnBack = findViewById(R.id.buttonBack);
 
         messageList = new ArrayList<>();
         adapter = new MessageAdapter(messageList);
@@ -71,6 +75,14 @@ public class ChatPage extends AppCompatActivity {
                 getBotResponse(msg);
                 editTextMessage.setText("");
             }
+        });
+
+        btnBack.setOnClickListener(v -> {
+            // Create a new intent to go to your target page
+            Intent intent = new Intent(ChatPage.this, PetGrowthActivity.class);
+
+            // Start that activity
+            startActivity(intent);
         });
     }
 

@@ -2,6 +2,7 @@ package com.example.chatpet.feature4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chatpet.ChatPage;
+import com.example.chatpet.PetJournalActivity;
 import com.example.chatpet.R;
 
 public class PetGrowthActivity extends AppCompatActivity {
@@ -17,7 +20,7 @@ public class PetGrowthActivity extends AppCompatActivity {
 
     private TextView tvEmoji, tvStage, tvPoints, tvReply, tvName, tvDelta;
     private ProgressBar barHunger, barHappiness, barEnergy;
-    private Button btnChat, btnFeed, btnTuck;
+    private Button btnChat, btnFeed, btnTuck, btnJournal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,13 @@ public class PetGrowthActivity extends AppCompatActivity {
         btnChat = findViewById(R.id.btnChat);
         btnFeed = findViewById(R.id.btnFeed);
         btnTuck = findViewById(R.id.btnTuck);
+        btnJournal = findViewById(R.id.btnJournal);
 
-        btnChat.setOnClickListener(v -> handleInteraction(PointManager.InteractionType.CHAT));
+        btnChat.setOnClickListener(v -> {handleInteraction(PointManager.InteractionType.CHAT);
+        Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
+        startActivity(intent);});
+        btnJournal.setOnClickListener(v -> {Intent intent = new Intent(PetGrowthActivity.this, PetJournalActivity.class);
+            startActivity(intent);});
         btnFeed.setOnClickListener(v -> handleInteraction(PointManager.InteractionType.FEED));
         btnTuck.setOnClickListener(v -> handleInteraction(PointManager.InteractionType.TUCK));
 

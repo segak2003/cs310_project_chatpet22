@@ -108,7 +108,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Chat 💬"/>
+                android:text="Chat 💬"
+                />
 
             <Button
                 android:id="@+id/btnFeed"
@@ -124,8 +125,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tuck 😴"/>
+                android:text="Tuck 😴"
+                />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnJournal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Journal 📓"/>
+
 
         <TextView
             android:id="@+id/tvReply"
