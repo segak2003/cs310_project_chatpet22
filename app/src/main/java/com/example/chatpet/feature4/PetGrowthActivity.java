@@ -149,7 +149,9 @@ public class PetGrowthActivity extends AppCompatActivity {
         }
 
         if(pet.happiness == 0 || pet.energy == 0 || pet.hunger == 0){
-            pet.points -= 10;
+            if (pet.points > 4){
+                pet.points -= 5;
+            }
         }
 
         // Optional: update UI

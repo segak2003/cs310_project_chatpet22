@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
 
@@ -48,14 +49,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnAvatarFemale.setOnClickListener(v -> {
             selectedAvatar = "Female";
-            btnAvatarFemale.setBackgroundColor(getResources().getColor(R.color.teal_200));
-            btnAvatarMale.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+            btnAvatarFemale.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200));
+            btnAvatarMale.setBackgroundColor(ContextCompat.getColor(this, R.color.darker_gray));
         });
 
         btnAvatarMale.setOnClickListener(v -> {
             selectedAvatar = "Male";
-            btnAvatarMale.setBackgroundColor(getResources().getColor(R.color.teal_200));
-            btnAvatarFemale.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+            btnAvatarMale.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200));
+            btnAvatarFemale.setBackgroundColor(ContextCompat.getColor(this, R.color.darker_gray));
         });
 
         btnRegister.setOnClickListener(v -> {
@@ -121,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Registered successfully!", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, com.example.chatpet.feature4.ProfileActivity.class);
+            Intent intent = new Intent(this, com.example.chatpet.ProfileActivity.class);
             intent.putExtra("USERNAME", username);
             intent.putExtra("FULL_NAME", fullName);
             intent.putExtra("BIRTHDAY", birthday);
