@@ -1,12 +1,15 @@
 package com.example.chatpet;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.chatpet.feature4.PetGrowthActivity;
 
 public class ProfileActivity extends AppCompatActivity {
     EditText etPreferredName, etPetName;
@@ -65,12 +68,14 @@ public class ProfileActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Profile Created 🎉")
                     .setMessage(message)
-                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton("Continue", (dialog, which) -> {
+                        dialog.dismiss();
+                        Intent intent = new Intent(ProfileActivity.this, PetGrowthActivity.class);
+                        startActivity(intent);
+                    })
                     .setCancelable(false)
                     .show();
         });
-
-        // Add homepage intent.
     }
 
     private void updatePetPreview() {
