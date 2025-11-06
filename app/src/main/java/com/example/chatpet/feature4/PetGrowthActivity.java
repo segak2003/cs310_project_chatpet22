@@ -34,6 +34,15 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         startBarsDecay();
 
+        if (controller.getPet().type == Pet.Type.NONE) {
+            Intent startIntent = getIntent();
+            String petType = startIntent.getStringExtra("PET_TYPE");
+            String petName = startIntent.getStringExtra("PET_NAME");
+
+            controller.getPet().type = Pet.Type.valueOf(petType);
+            controller.getPet().name = petName;
+        }
+
         tvEmoji = findViewById(R.id.tvEmoji);
         tvName = findViewById(R.id.tvName);
         tvStage = findViewById(R.id.tvStage);
