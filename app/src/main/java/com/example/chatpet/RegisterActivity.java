@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity {
+
     EditText etFullName, etBirthday, etUsername, etEmail, etPassword, etConfirmPassword;
-    Button btnRegister, btnAvatarFemale, btnAvatarMale;
-    String selectedAvatar = "";
+    Button btnRegister;
+    RadioGroup rgAvatar;
+    RadioButton rbFemale, rbMale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +33,9 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
-        btnAvatarFemale = findViewById(R.id.btnAvatarFemale);
-        btnAvatarMale = findViewById(R.id.btnAvatarMale);
+        rgAvatar = findViewById(R.id.rgAvatar);
+        rbFemale = findViewById(R.id.rbFemale);
+        rbMale = findViewById(R.id.rbMale);
 
         etBirthday.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();
@@ -44,18 +49,6 @@ public class RegisterActivity extends AppCompatActivity {
                         etBirthday.setText(date);
                     }, year, month, day);
             datePickerDialog.show();
-        });
-
-        btnAvatarFemale.setOnClickListener(v -> {
-            selectedAvatar = "Female";
-            btnAvatarFemale.setBackgroundColor(getResources().getColor(R.color.teal_200));
-            btnAvatarMale.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-        });
-
-        btnAvatarMale.setOnClickListener(v -> {
-            selectedAvatar = "Male";
-            btnAvatarMale.setBackgroundColor(getResources().getColor(R.color.teal_200));
-            btnAvatarFemale.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
         });
 
         btnRegister.setOnClickListener(v -> {
@@ -114,10 +107,13 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            if (selectedAvatar.isEmpty()) {
+            int selectedId = rgAvatar.getCheckedRadioButtonId();
+            if (selectedId == -1) {
                 Toast.makeText(this, "Please select an avatar", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            String selectedAvatar = (selectedId == R.id.rbFemale) ? "Female" : "Male";
 
             Toast.makeText(this, "Registered successfully!", Toast.LENGTH_SHORT).show();
 
