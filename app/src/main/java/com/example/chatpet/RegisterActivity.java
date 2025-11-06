@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
 
@@ -50,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }, year, month, day);
             datePickerDialog.show();
         });
+
 
         btnRegister.setOnClickListener(v -> {
             String fullName = etFullName.getText().toString().trim();
@@ -117,7 +119,9 @@ public class RegisterActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Registered successfully!", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, ProfileActivity.class);
+
+            Intent intent = new Intent(this, com.example.chatpet.ProfileActivity.class);
+
             intent.putExtra("USERNAME", username);
             intent.putExtra("FULL_NAME", fullName);
             intent.putExtra("BIRTHDAY", birthday);
