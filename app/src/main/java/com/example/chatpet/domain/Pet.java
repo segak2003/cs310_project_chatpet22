@@ -12,6 +12,17 @@ public class Pet {
     private int hunger;   // 0–100
     private int energy;   // 0–100
 
+    public Pet() {
+        id = 0;
+        userId = 0;
+        name = "";
+        animal = "";
+        level = 0;
+        happiness = 0;
+        hunger = 0;
+        energy = 0;
+    }
+
     public Pet(long id, long userId, String name, String animal, int level, int happiness, int hunger, int energy) {
         this.id = id;
         this.userId = userId;
