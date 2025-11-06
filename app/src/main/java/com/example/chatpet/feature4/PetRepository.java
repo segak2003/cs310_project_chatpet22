@@ -1,4 +1,4 @@
-package com.example.a310_project_chatpet22.feature4;
+package com.example.chatpet.feature4;
 
 import android.content.Context;
 import android.content.SharedPreferences;

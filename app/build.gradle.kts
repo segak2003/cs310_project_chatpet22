@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.a310_project_chatpet22"
+    namespace = "com.example.chatpet"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.a310_project_chatpet22"
+        applicationId = "com.example.chatpet"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.example.a310_project_chatpet22.feature4;
+package com.example.chatpet.feature4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,9 +8,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.a310_project_chatpet22.R;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.chatpet.R;
+
+public class PetGrowthActivity extends AppCompatActivity {
 
     private PetInteractionController controller;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = new PetInteractionController(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_pet_growth);
 
         tvEmoji = findViewById(R.id.tvEmoji);
         tvName = findViewById(R.id.tvName);
