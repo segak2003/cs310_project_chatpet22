@@ -43,8 +43,9 @@ public class InteractActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interact);
 
-        pet = new Pet();
+        pet = new Pet(); // Delete when data connected
 
+        // Fix when data connected
         petId = getIntent().getStringExtra(EXTRA_PET_ID);
         if (petId == null) {
             Toast.makeText(this, "No pet selected.", Toast.LENGTH_SHORT).show();
