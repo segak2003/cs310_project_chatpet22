@@ -94,7 +94,23 @@ public class ChatPage extends AppCompatActivity {
 
     // For now, fake a bot reply (you can replace this with API call later)
     private void getBotResponse(String userMessage) {
-        String botReply = "You said: " + userMessage; // placeholder response
+        String lowerUserMessage = userMessage.toLowerCase();
+        String botReply = "";
+        if(lowerUserMessage.contains("hi") ||lowerUserMessage.contains("hello") ){
+            botReply += "Hewwo to you too! ";
+        }
+        if(lowerUserMessage.contains("love you")){
+            botReply += "I wuv you more! ";
+        }
+        if(lowerUserMessage.contains("how are you")){
+            botReply += "I'm doing much better now that I'm talking to you :) ";
+        }
+        if(lowerUserMessage.contains("what do")){
+            botReply += "Can we go on a walk later pweaseeeeee!!!";
+        }
+        if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
+            botReply += "Nooo please come back soon :( ";
+        }
         addMessage(botReply, false);
     }
 
