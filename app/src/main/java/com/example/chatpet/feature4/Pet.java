@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Pet implements Serializable {
     public enum Stage { BABY, TEEN, ADULT, ELDER }
-    public enum Type { CAT, DRAGON , NONE }
+    public enum Type { CAT, DRAGON, NONE }
 
     public String id = "default";
     public Type type = Type.NONE;

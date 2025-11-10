@@ -22,7 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 //import com.example.chatpet.R;
 
+import com.example.chatpet.feature4.Pet;
 import com.example.chatpet.feature4.PetGrowthActivity;
+import com.example.chatpet.feature4.PetInteractionController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ public class ChatPage extends AppCompatActivity {
     private ImageButton buttonSend;
     private MessageAdapter adapter;
     private List<Message> messageList;
+
+    private PetInteractionController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,9 @@ public class ChatPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottom);
             return insets;
         });
+
+        controller = new PetInteractionController(this);
+
 
 
         recyclerView = findViewById(R.id.recyclerViewMessages);
@@ -96,21 +103,42 @@ public class ChatPage extends AppCompatActivity {
     private void getBotResponse(String userMessage) {
         String lowerUserMessage = userMessage.toLowerCase();
         String botReply = "";
-        if(lowerUserMessage.contains("hi") ||lowerUserMessage.contains("hello") ){
-            botReply += "Hewwo to you too! ";
+
+        if(controller.getPet().type == Pet.Type.CAT){
+            if(lowerUserMessage.contains("hi") ||lowerUserMessage.contains("hello") ){
+                botReply += "Hewwo to you too! ";
+            }
+            if(lowerUserMessage.contains("love you")){
+                botReply += "I wuv you more! ";
+            }
+            if(lowerUserMessage.contains("how are you")){
+                botReply += "I'm doing much better now that I'm talking to you :) ";
+            }
+            if(lowerUserMessage.contains("what do")){
+                botReply += "Can we go on a walk later pweaseeeeee!!!";
+            }
+            if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
+                botReply += "Nooo please come back soon :( ";
+            }
         }
-        if(lowerUserMessage.contains("love you")){
-            botReply += "I wuv you more! ";
+        else {
+            if (lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello")) {
+                botReply += "Roarrr to you too! ";
+            }
+            if (lowerUserMessage.contains("love you")) {
+                botReply += "I 🔥 you more! ";
+            }
+            if (lowerUserMessage.contains("how are you")) {
+                botReply += "I'm doing much better now that I'm talking to you :) ";
+            }
+            if (lowerUserMessage.contains("what do")) {
+                botReply += "Can we go on a fly through the sky later please!!!";
+            }
+            if (lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")) {
+                botReply += "Nooo please come back soon :( I will miss you.";
+            }
         }
-        if(lowerUserMessage.contains("how are you")){
-            botReply += "I'm doing much better now that I'm talking to you :) ";
-        }
-        if(lowerUserMessage.contains("what do")){
-            botReply += "Can we go on a walk later pweaseeeeee!!!";
-        }
-        if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
-            botReply += "Nooo please come back soon :( ";
-        }
+
         addMessage(botReply, false);
     }
 
