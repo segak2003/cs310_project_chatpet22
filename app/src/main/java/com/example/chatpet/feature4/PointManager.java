@@ -26,9 +26,9 @@ public class PointManager {
 
     public static void checkLevelUp(Pet pet) {
         int pts = pet.points;
-        if (pts >= 701) { pet.stage = Pet.Stage.ELDER; pet.level = 4; }
+        if (pts >= 700) { pet.stage = Pet.Stage.ELDER; pet.level = 4; }
         else if (pts >= 301) { pet.stage = Pet.Stage.ADULT; pet.level = 3; }
-        else if (pts >= 101) { pet.stage = Pet.Stage.TEEN;  pet.level = 2; }
+        else if (pts >= 150) { pet.stage = Pet.Stage.TEEN;  pet.level = 2; }
         else { pet.stage = Pet.Stage.BABY; pet.level = 1; }
     }
 

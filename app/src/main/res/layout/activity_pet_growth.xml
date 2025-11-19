@@ -103,28 +103,90 @@
             android:gravity="center"
             android:paddingTop="16dp">
 
-            <Button
-                android:id="@+id/btnChat"
-                android:layout_width="0dp"
+            <!-- main buttons -->
+            <LinearLayout
+                android:id="@+id/layoutMainButtons"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Chat 💬"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="16dp">
 
-            <Button
-                android:id="@+id/btnFeed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Feed 🍕"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"/>
+                <Button
+                    android:id="@+id/btnChat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Chat 💬"/>
 
-            <Button
-                android:id="@+id/btnTuck"
-                android:layout_width="0dp"
+                <Button
+                    android:id="@+id/btnFeed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Feed 🍕"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/btnTuck"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tuck 😴"/>
+            </LinearLayout>
+
+            <!-- feed choices row (hidden by default) -->
+            <LinearLayout
+                android:id="@+id/layoutFeedChoices"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tuck 😴"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnFoodKibble"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Kibble 🍖"/>
+
+                <Button
+                    android:id="@+id/btnFoodFish"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fish 🐟"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/btnFoodPizza"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pizza 🍕"/>
+            </LinearLayout>
+
+            <!-- cancel row (separate so it's easy to notice) -->
+            <LinearLayout
+                android:id="@+id/layoutFeedCancelRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnFoodCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel ❌"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <TextView
