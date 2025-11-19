@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -70,42 +71,94 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <RadioGroup
-        android:id="@+id/rgAvatar"
+    <!-- Outer container for two rows -->
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/etConfirmPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp">
 
-        <RadioButton
-            android:id="@+id/rbFemale"
-            android:layout_width="wrap_content"
+        <!-- Female avatars row -->
+        <RadioGroup
+            android:id="@+id/rgFemales"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="👩 Female"
-            android:padding="8dp"
-            android:textSize="16sp" />
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <RadioButton
-            android:id="@+id/rbMale"
-            android:layout_width="wrap_content"
+            <RadioButton
+                android:id="@+id/rbFemaleYellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👩"
+                android:textSize="32sp"
+                android:padding="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbFemaleWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👩🏻"
+                android:textSize="32sp"
+                android:padding="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbFemaleBrown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👩🏾"
+                android:textSize="32sp"
+                android:padding="12dp" />
+
+        </RadioGroup>
+
+        <!-- Male avatars row -->
+        <RadioGroup
+            android:id="@+id/rgMales"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="👨 Male"
-            android:padding="8dp"
-            android:textSize="16sp" />
-    </RadioGroup>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="12dp">
+
+            <RadioButton
+                android:id="@+id/rbMaleYellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👨"
+                android:textSize="32sp"
+                android:padding="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbMaleWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👨🏻"
+                android:textSize="32sp"
+                android:padding="12dp" />
+
+            <RadioButton
+                android:id="@+id/rbMaleBrown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👨🏾"
+                android:textSize="32sp"
+                android:padding="12dp" />
+        </RadioGroup>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Register"
-        app:layout_constraintTop_toBottomOf="@id/rgAvatar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
