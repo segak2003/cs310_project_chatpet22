@@ -22,11 +22,16 @@ public class PetGrowthActivity extends AppCompatActivity {
     // main action buttons
     private Button btnChat, btnFeed, btnTuck;
 
-    // new food choice layouts + buttons
+    // food choice layouts
     private LinearLayout layoutMainButtons;
     private LinearLayout layoutFeedChoices;
     private LinearLayout layoutFeedCancelRow;
+
+    // food buttons
     private Button btnFoodKibble, btnFoodFish, btnFoodPizza, btnFoodCancel;
+
+    // reset button
+    private Button btnReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         controller = new PetInteractionController(this);
         setContentView(R.layout.activity_pet_growth);
 
+        // text + bars
         tvEmoji = findViewById(R.id.tvEmoji);
         tvName = findViewById(R.id.tvName);
         tvStage = findViewById(R.id.tvStage);
@@ -61,14 +67,15 @@ public class PetGrowthActivity extends AppCompatActivity {
         btnFoodPizza = findViewById(R.id.btnFoodPizza);
         btnFoodCancel = findViewById(R.id.btnFoodCancel);
 
-        // === listeners ===
+        // reset button
+        btnReset = findViewById(R.id.btnReset);
 
-        // chat and tuck stay the same
+        // --- LISTENERS ---
+
         btnChat.setOnClickListener(v -> handleInteraction(PointManager.InteractionType.CHAT));
 
         btnTuck.setOnClickListener(v -> handleInteraction(PointManager.InteractionType.TUCK));
 
-        // feed now opens the food selection row
         btnFeed.setOnClickListener(v -> {
             layoutMainButtons.setVisibility(View.GONE);
             layoutFeedChoices.setVisibility(View.VISIBLE);
@@ -76,7 +83,7 @@ public class PetGrowthActivity extends AppCompatActivity {
             tvReply.setText("What should I eat? 😋");
         });
 
-        // each food option counts as a FEED interaction
+        // food selection interactions
         btnFoodKibble.setOnClickListener(v -> {
             tvReply.setText("Yum! Kibble was tasty! 🍖");
             handleInteraction(PointManager.InteractionType.FEED);
@@ -100,6 +107,16 @@ public class PetGrowthActivity extends AppCompatActivity {
             restoreMainButtons();
         });
 
+        // reset button listener
+        btnReset.setOnClickListener(v -> {
+            controller.resetPet();
+            Toast.makeText(this, "Pet reset!", Toast.LENGTH_SHORT).show();
+            refreshUI();
+        });
+
+        // ✅ apply decay based on time since last update
+        controller.applyTimeDecay();
+
         refreshUI();
     }
 
@@ -118,6 +135,13 @@ public class PetGrowthActivity extends AppCompatActivity {
             return;
         }
 
+        // Can't chat if energy is too low
+        if (type == PointManager.InteractionType.CHAT && current.energy <= 5) {
+            Toast.makeText(this, "Too tired to chat!", Toast.LENGTH_SHORT).show();
+            tvReply.setText("I'm too tired to talk... zZz");
+            return;
+        }
+
         PointsDelta d;
         if (type == PointManager.InteractionType.CHAT) {
             d = controller.onChatCompleted();
@@ -127,7 +151,6 @@ public class PetGrowthActivity extends AppCompatActivity {
             d = controller.onTuckCompleted();
         }
 
-        // reply text is set in the callers for FEED, but this is fine for CHAT/TUCK
         if (type == PointManager.InteractionType.CHAT ||
                 type == PointManager.InteractionType.TUCK) {
             tvReply.setText(controller.replyFor(type));
@@ -148,9 +171,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         }
     }
 
-
     private void startSleepPause() {
-        // disable all buttons during "sleep"
         btnChat.setEnabled(false);
         btnFeed.setEnabled(false);
         btnTuck.setEnabled(false);
@@ -160,7 +181,6 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         tvReply.setText("Your pet is sleeping... 😴");
 
-        // Re-enable after 3 seconds
         tvEmoji.postDelayed(() -> {
             btnChat.setEnabled(true);
             btnFeed.setEnabled(true);

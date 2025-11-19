@@ -38,4 +38,20 @@ public class PetRepository {
                 .putLong("lastUpdatedMs", p.lastUpdatedMs)
                 .apply();
     }
+
+
+
+
+
+
+
+
+
+    public void clear() {
+        sp.edit().clear().apply();
+    }
+
 }
+
+
+

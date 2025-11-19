@@ -15,7 +15,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startActivity(new Intent(this, com.example.chatpet.feature4.PetGrowthActivity.class));
+        finish();
+        /*
         EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_main);
 
         // Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
@@ -43,6 +47,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-
+        */
     }
 }
