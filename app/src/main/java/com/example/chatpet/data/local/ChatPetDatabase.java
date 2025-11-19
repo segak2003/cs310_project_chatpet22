@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 
 /**
@@ -21,6 +22,7 @@ import androidx.room.RoomDatabase;
         version = 1,
         exportSchema = true
 )
+@TypeConverters({Converters.class})
 public abstract class ChatPetDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
