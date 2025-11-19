@@ -1,5 +1,8 @@
 package com.example.chatpet;
 
+import static com.example.chatpet.feature4.Pet.Type.CAT;
+import static com.example.chatpet.feature4.Pet.Type.DRAGON;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.feature4.PetGrowthActivity;
+import com.example.chatpet.feature4.PetInteractionController;
 
 public class ProfileActivity extends AppCompatActivity {
     EditText etPetName;
@@ -21,12 +25,18 @@ public class ProfileActivity extends AppCompatActivity {
     String[] petIcons = {"🐈", "🐉"};
     String[] petTypes = {"CAT", "DRAGON"};
 
+    private PetInteractionController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        controller = new PetInteractionController(this);
+
+
         etPetName = findViewById(R.id.etPetName);
+
         btnLeft = findViewById(R.id.btnLeft);
         btnRight = findViewById(R.id.btnRight);
         iconPetPreview = findViewById(R.id.iconPetPreview);
@@ -45,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> {
+          
             String petName = etPetName.getText().toString().trim();
             String selectedPet = petTypes[currentPetIndex];
 
@@ -54,8 +65,15 @@ public class ProfileActivity extends AppCompatActivity {
                 etPetName.requestFocus();
                 return;
             }
-
+            controller.getPet().name = etPetName.getText().toString().trim();
+            if (selectedPet.equals("CAT")) {
+                controller.getPet().type = CAT;
+            }
+            else{
+                controller.getPet().type = DRAGON;
+            }
             String message = "Welcome !\nYour pet " + petName + " the " + selectedPet + " is ready!";
+
 
             new AlertDialog.Builder(this)
                     .setTitle("Profile Created 🎉")
