@@ -6,11 +6,12 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(
         tableName = "users",
         indices = {
-                @Index(value = {"username"}, unique = true),
-                @Index(value = {"email"}, unique = true)
+                @Index(value = {"username"}, unique = true)
         }
 )
 public class UserEntity {
@@ -22,19 +23,27 @@ public class UserEntity {
     public String username;
 
     @NonNull
-    public String email;
+    public String password;
 
     @NonNull
-    public String password;
+    public String name;
+
+    @NonNull
+    public Date birthday;
+
+    public int avatar;
 
     @NonNull
     @ColumnInfo(name = "created_at")
     public long createdAt; // epoch millis
 
-    public UserEntity(@NonNull String username, @NonNull String email, @NonNull String password, long createdAt) {
+    public UserEntity(@NonNull String username, @NonNull String password,
+                      @NonNull String name, @NonNull Date birthday, int avatar, long createdAt) {
         this.username = username;
-        this.email = email;
         this.password = password;
+        this.name = name;
+        this.birthday = birthday;
+        this.avatar = avatar;
         this.createdAt = createdAt;
     }
 }

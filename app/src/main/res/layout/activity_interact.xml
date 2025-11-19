@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.chatpet.InteractActivity">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scroll_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/container_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- FEED -->
+            <TextView
+                android:id="@+id/label_feed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Feed your pet"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinner_food"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/button_feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Feed"
+                android:layout_marginTop="12dp" />
+
+            <!-- Divider-ish spacing -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
+
+            <!-- SLEEP -->
+            <TextView
+                android:id="@+id/label_sleep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tuck in your pet"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:paddingBottom="8dp" />
+
+            <EditText
+                android:id="@+id/input_minutes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Minutes"
+                android:inputType="number"
+                android:maxLines="1" />
+
+            <Button
+                android:id="@+id/button_sleep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sleep"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

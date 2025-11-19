@@ -32,6 +32,9 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE user_id = :userId LIMIT 1")
     LiveData<UserEntity> observeById(long userId);
 
+    @Query("SELECT * FROM users WHERE username = :username LIMIT 1")
+    UserEntity getByUsername(String username);
+
     @Query("SELECT COUNT(*) FROM users")
     int count();
 }

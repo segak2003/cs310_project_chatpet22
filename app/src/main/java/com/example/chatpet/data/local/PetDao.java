@@ -1,5 +1,6 @@
 package com.example.chatpet.data.local;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -24,8 +25,14 @@ public interface PetDao {
     @Query("SELECT * FROM pets WHERE pet_id = :petId LIMIT 1")
     PetEntity getById(long petId);
 
+    @Query("SELECT * FROM pets WHERE pet_id = :petId LIMIT 1")
+    LiveData<PetEntity> observeById(long petId);
+
     @Query("SELECT * FROM pets WHERE user_id = :userId LIMIT 1")
     PetEntity getByUserId(long userId);
+
+    @Query("SELECT * FROM pets WHERE user_id = :userId LIMIT 1")
+    LiveData<PetEntity> observeByUserId(long userId);
 
     @Query("SELECT * FROM pets ORDER BY created_at DESC")
     List<PetEntity> getAll();

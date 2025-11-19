@@ -18,8 +18,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText etFullName, etBirthday, etUsername, etEmail, etPassword, etConfirmPassword;
     Button btnRegister;
-    RadioGroup rgFemales, rgMales;
-    RadioButton rbFemaleYellow, rbFemaleWhite, rbFemaleBrown, rbMaleYellow, rbMaleWhite, rbMaleBrown;
+    RadioGroup rgAvatar;
+    RadioButton rbFemale, rbMale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +33,9 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
-
-        rgFemales = findViewById(R.id.rgFemales);
-        rgMales = findViewById(R.id.rgMales);
-
-
-        rbFemaleYellow = findViewById(R.id.rbFemaleYellow);
-        rbFemaleWhite = findViewById(R.id.rbFemaleWhite);
-        rbFemaleBrown = findViewById(R.id.rbFemaleBrown);
-
-        rbMaleYellow = findViewById(R.id.rbMaleYellow);
-        rbMaleWhite = findViewById(R.id.rbMaleWhite);
-        rbMaleBrown = findViewById(R.id.rbMaleBrown);
+        rgAvatar = findViewById(R.id.rgAvatar);
+        rbFemale = findViewById(R.id.rbFemale);
+        rbMale = findViewById(R.id.rbMale);
 
         etBirthday.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();
@@ -116,20 +107,13 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            // Determine selected avatar
-            String selectedAvatar = null;
-
-            if (rbFemaleYellow.isChecked()) selectedAvatar = "👩 Yellow";
-            if (rbFemaleWhite.isChecked()) selectedAvatar = "👩🏻 White";
-            if (rbFemaleBrown.isChecked()) selectedAvatar = "👩🏾 Brown";
-            if (rbMaleYellow.isChecked()) selectedAvatar = "👨 Yellow";
-            if (rbMaleWhite.isChecked()) selectedAvatar = "👨🏻 White";
-            if (rbMaleBrown.isChecked()) selectedAvatar = "👨🏾 Brown";
-
-            if (selectedAvatar == null) {
+            int selectedId = rgAvatar.getCheckedRadioButtonId();
+            if (selectedId == -1) {
                 Toast.makeText(this, "Please select an avatar", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            String selectedAvatar = (selectedId == R.id.rbFemale) ? "Female" : "Male";
 
             Toast.makeText(this, "Registered successfully!", Toast.LENGTH_SHORT).show();
 

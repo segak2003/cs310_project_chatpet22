@@ -1,5 +1,6 @@
 package com.example.chatpet.data.local;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -29,6 +30,9 @@ public interface JournalEntryDao {
 
     @Query("SELECT * FROM journal_entries WHERE pet_id = :petId ORDER BY created_at DESC")
     List<JournalEntryEntity> getByPetId(long petId);
+
+    @Query("SELECT * FROM journal_entries WHERE pet_id = :petId ORDER BY created_at DESC")
+    LiveData<List<JournalEntryEntity>> observeByPetId(long petId);
 
     @Query("SELECT * FROM journal_entries WHERE pet_id = :petId AND created_at BETWEEN :startMs AND :endMs ORDER BY created_at DESC")
     List<JournalEntryEntity> getByPetIdInRange(long petId, long startMs, long endMs);

@@ -8,7 +8,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.chatpet.data.repository.UserRepository;
+
 public class LoginActivity extends AppCompatActivity {
+    UserRepository userRepository;
     EditText etUsername, etPassword;
     Button btnLogin;
 
@@ -21,18 +24,36 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
 
+        userRepository = new UserRepository(this);
+
         btnLogin.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please enter both fields", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, ProfileActivity.class);
-                intent.putExtra("USERNAME", username);
-                startActivity(intent);
+                return;
             }
+
+            userRepository.isUsernameTaken(username, (taken) -> {
+                if (!taken) {
+                    etUsername.setError("Incorrect username");
+                    etUsername.requestFocus();
+                } else {
+                    userRepository.validatePassword(username, password, (success) -> {
+                        if (!success) {
+                            etPassword.setError("Incorrect password");
+                            etPassword.requestFocus();
+                        } else {
+                            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            userRepository.setActiveUser(username);
+                            Intent intent = new Intent(this, ProfileActivity.class);
+                            intent.putExtra("USERNAME", username);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            });
         });
     }
 }

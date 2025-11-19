@@ -1,6 +1,7 @@
 package com.example.chatpet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -21,6 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 //import com.example.chatpet.R;
 
+import com.example.chatpet.feature4.Pet;
+import com.example.chatpet.feature4.PetGrowthActivity;
+import com.example.chatpet.feature4.PetInteractionController;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +36,8 @@ public class ChatPage extends AppCompatActivity {
     private ImageButton buttonSend;
     private MessageAdapter adapter;
     private List<Message> messageList;
+
+    private PetInteractionController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +61,14 @@ public class ChatPage extends AppCompatActivity {
             return insets;
         });
 
+        controller = new PetInteractionController(this);
+
+
 
         recyclerView = findViewById(R.id.recyclerViewMessages);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
+        ImageButton btnBack = findViewById(R.id.buttonBack);
 
         messageList = new ArrayList<>();
         adapter = new MessageAdapter(messageList);
@@ -72,6 +83,14 @@ public class ChatPage extends AppCompatActivity {
                 editTextMessage.setText("");
             }
         });
+
+        btnBack.setOnClickListener(v -> {
+            // Create a new intent to go to your target page
+            Intent intent = new Intent(ChatPage.this, PetGrowthActivity.class);
+
+            // Start that activity
+            startActivity(intent);
+        });
     }
 
     private void addMessage(String text, boolean isUser) {
@@ -82,7 +101,44 @@ public class ChatPage extends AppCompatActivity {
 
     // For now, fake a bot reply (you can replace this with API call later)
     private void getBotResponse(String userMessage) {
-        String botReply = "You said: " + userMessage; // placeholder response
+        String lowerUserMessage = userMessage.toLowerCase();
+        String botReply = "";
+
+        if(controller.getPet().type == Pet.Type.CAT){
+            if(lowerUserMessage.contains("hi") ||lowerUserMessage.contains("hello") ){
+                botReply += "Hewwo to you too! ";
+            }
+            if(lowerUserMessage.contains("love you")){
+                botReply += "I wuv you more! ";
+            }
+            if(lowerUserMessage.contains("how are you")){
+                botReply += "I'm doing much better now that I'm talking to you :) ";
+            }
+            if(lowerUserMessage.contains("what do")){
+                botReply += "Can we go on a walk later pweaseeeeee!!!";
+            }
+            if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
+                botReply += "Nooo please come back soon :( ";
+            }
+        }
+        else {
+            if (lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello")) {
+                botReply += "Roarrr to you too! ";
+            }
+            if (lowerUserMessage.contains("love you")) {
+                botReply += "I 🔥 you more! ";
+            }
+            if (lowerUserMessage.contains("how are you")) {
+                botReply += "I'm doing much better now that I'm talking to you :) ";
+            }
+            if (lowerUserMessage.contains("what do")) {
+                botReply += "Can we go on a fly through the sky later please!!!";
+            }
+            if (lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")) {
+                botReply += "Nooo please come back soon :( I will miss you.";
+            }
+        }
+
         addMessage(botReply, false);
     }
 

@@ -1,5 +1,6 @@
 package com.example.chatpet.data.local;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -27,8 +28,14 @@ public interface MessageDao {
     @Query("SELECT * FROM messages WHERE message_id = :messageId LIMIT 1")
     MessageEntity getById(long messageId);
 
-    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at ASC")
+    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at DESC")
     List<MessageEntity> getByPetId(long petId);
+
+    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at DESC")
+    LiveData<List<MessageEntity>> observeByPetId(long petId);
+
+    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at DESC LIMIT :limit")
+    List<MessageEntity> getByPetIdLimited(long petId, int limit);
 
     @Query("SELECT * FROM messages WHERE pet_id = :petId AND created_at BETWEEN :startMs AND :endMs ORDER BY created_at DESC")
     List<MessageEntity> getByPetIdInRange(long petId, long startMs, long endMs);
@@ -41,4 +48,7 @@ public interface MessageDao {
 
     @Query("SELECT COUNT(*) FROM messages WHERE pet_id = :petId")
     int countForPet(long petId);
+
+    @Query("SELECT COUNT(*) FROM messages WHERE pet_id = :petId AND created_at BETWEEN :startMs AND :endMs")
+    int countForPetInRange(long petId, long startMs, long endMs);
 }
