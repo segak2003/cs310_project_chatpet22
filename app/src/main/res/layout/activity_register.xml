@@ -16,12 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/etBirthday"
+    <DatePicker
+        android:id="@+id/dpBirthday"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Birthday (MM/DD/YYYY)"
-        android:focusable="false"
+        android:layout_height="80dp"
+        android:datePickerMode="spinner"
         app:layout_constraintTop_toBottomOf="@id/etFullName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Username"
-        app:layout_constraintTop_toBottomOf="@id/etBirthday"
+        app:layout_constraintTop_toBottomOf="@id/dpBirthday"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
