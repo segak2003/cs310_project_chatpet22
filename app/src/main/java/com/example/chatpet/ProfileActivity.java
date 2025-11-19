@@ -16,7 +16,7 @@ import com.example.chatpet.feature4.PetGrowthActivity;
 import com.example.chatpet.feature4.PetInteractionController;
 
 public class ProfileActivity extends AppCompatActivity {
-    EditText etPreferredName, etPetName;
+    EditText etPetName;
     TextView iconPetPreview;
     Button btnLeft, btnRight, btnNext;
 
@@ -55,7 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> {
-//            String preferredName = etPreferredName.getText().toString().trim();
+          
             String petName = etPetName.getText().toString().trim();
             String selectedPet = petTypes[currentPetIndex];
 
@@ -72,8 +72,8 @@ public class ProfileActivity extends AppCompatActivity {
             else{
                 controller.getPet().type = DRAGON;
             }
+            String message = "Welcome !\nYour pet " + petName + " the " + selectedPet + " is ready!";
 
-            String message = "Your pet " + petName + " the " + selectedPet + " is ready!";
 
             new AlertDialog.Builder(this)
                     .setTitle("Profile Created 🎉")

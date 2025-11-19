@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -15,9 +17,15 @@ import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
 
-public class RegisterActivity extends AppCompatActivity {
+import com.example.chatpet.data.repository.UserRepository;
 
-    EditText etFullName, etBirthday, etUsername, etEmail, etPassword, etConfirmPassword;
+import java.util.Calendar;
+import java.util.Date;
+
+public class RegisterActivity extends AppCompatActivity {
+    UserRepository userRepository;
+    EditText etFullName, etUsername, etEmail, etPassword, etConfirmPassword;
+    DatePicker dpBirthday;
     Button btnRegister;
     RadioGroup rgAvatar;
     RadioButton rbFemale, rbMale;
@@ -27,8 +35,10 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        userRepository = new UserRepository(this);
+
         etFullName = findViewById(R.id.etFullName);
-        etBirthday = findViewById(R.id.etBirthday);
+        dpBirthday = findViewById(R.id.dpBirthday);
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -38,24 +48,9 @@ public class RegisterActivity extends AppCompatActivity {
         rbFemale = findViewById(R.id.rbFemale);
         rbMale = findViewById(R.id.rbMale);
 
-        etBirthday.setOnClickListener(v -> {
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    (view, selectedYear, selectedMonth, selectedDay) -> {
-                        String date = (selectedMonth + 1) + "/" + selectedDay + "/" + selectedYear;
-                        etBirthday.setText(date);
-                    }, year, month, day);
-            datePickerDialog.show();
-        });
-
 
         btnRegister.setOnClickListener(v -> {
             String fullName = etFullName.getText().toString().trim();
-            String birthday = etBirthday.getText().toString().trim();
             String username = etUsername.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -67,15 +62,19 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            if (birthday.isEmpty()) {
-                etBirthday.setError("Birthday is required");
-                etBirthday.requestFocus();
-                return;
-            }
-
             if (username.isEmpty()) {
                 etUsername.setError("Username is required");
                 etUsername.requestFocus();
+                return;
+            }
+
+            userRepository.isUsernameTaken(username, (taken) -> {
+                if (taken) {
+                    etUsername.setError("Username is taken");
+                    etUsername.requestFocus();
+                }
+            });
+            if (etUsername.getError() != null) {
                 return;
             }
 
@@ -109,13 +108,24 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            int selectedId = rgAvatar.getCheckedRadioButtonId();
-            if (selectedId == -1) {
+            int selectedAvatarId = rgAvatar.getCheckedRadioButtonId();
+            if (selectedAvatarId == -1) {
                 Toast.makeText(this, "Please select an avatar", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String selectedAvatar = (selectedId == R.id.rbFemale) ? "Female" : "Male";
+            int day = dpBirthday.getDayOfMonth();
+            int month = dpBirthday.getMonth();
+            int year = dpBirthday.getYear();
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+            Date birthday = cal.getTime();
+
+            userRepository.createUser(username, password, fullName, birthday, selectedAvatarId, (userId) -> {
+                userRepository.setActiveUserId(userId);
+            });
 
             Toast.makeText(this, "Registered successfully!", Toast.LENGTH_SHORT).show();
 
@@ -125,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
             intent.putExtra("USERNAME", username);
             intent.putExtra("FULL_NAME", fullName);
             intent.putExtra("BIRTHDAY", birthday);
-            intent.putExtra("AVATAR", selectedAvatar);
+            intent.putExtra("AVATAR", selectedAvatarId);
             startActivity(intent);
         });
     }

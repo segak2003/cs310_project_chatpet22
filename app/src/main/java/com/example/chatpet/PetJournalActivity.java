@@ -117,8 +117,10 @@ public class PetJournalActivity extends AppCompatActivity {
         UserDao userDao = database.userDao();
         UserEntity defaultUser = new UserEntity(
                 "GuestUser",                 // username
-                "guest@chatpet.com",         // email
                 "default_password",          // password (not used for this default)
+                "Guest Jones",
+                new Date(System.currentTimeMillis()),
+                0,
                 System.currentTimeMillis()   // createdAt
         );
         long userId = userDao.insert(defaultUser); // This returns the auto-generated user_id
@@ -130,6 +132,7 @@ public class PetJournalActivity extends AppCompatActivity {
                 "Buddy",                     // name
                 "dog",                       // animal
                 1,                           // level
+                0,
                 50,                          // happiness
                 50,                          // hunger
                 50,                          // energy
