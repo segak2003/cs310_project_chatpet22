@@ -183,7 +183,7 @@ public class PetJournalActivity extends AppCompatActivity {
         return new JournalEntryEntity(PET_ID, title, content, System.currentTimeMillis());
     }
     
-    private String generateContentBasedOnStats(int hunger, int happiness, int energy) {
+    protected String generateContentBasedOnStats(int hunger, int happiness, int energy) {
         StringBuilder content = new StringBuilder();
         
         // Hunger-based content
@@ -273,7 +273,7 @@ public class PetJournalActivity extends AppCompatActivity {
         return content.toString();
     }
     
-    private String generateTitleBasedOnStats(int hunger, int happiness, int energy) {
+    protected String generateTitleBasedOnStats(int hunger, int happiness, int energy) {
         // Generate title based on overall state
         int avgStat = (hunger + happiness + energy) / 3;
         
@@ -342,7 +342,7 @@ public class PetJournalActivity extends AppCompatActivity {
     }
 
     // Helper method to format timestamps nicely
-    private String formatDate(long timestamp) {
+    protected String formatDate(long timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy 'at' h:mm a", Locale.getDefault());
         return sdf.format(new Date(timestamp));
     }
@@ -354,4 +354,20 @@ public class PetJournalActivity extends AppCompatActivity {
             dbExecutor.shutdown(); // Always clean up resources!
         }
     }
+
+    public long getPetId() {
+        return PET_ID;
+    }
+
+    public void refreshJournal() {
+        generateNewJournalEntry();
+    }
+
+    public String getCurrentEntryText() {
+        if (currentEntryDisplay != null) {
+            return currentEntryDisplay.getText().toString();
+        }
+        return "";
+    }
+
 }
