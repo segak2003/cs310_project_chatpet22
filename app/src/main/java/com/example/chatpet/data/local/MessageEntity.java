@@ -50,4 +50,12 @@ public class MessageEntity {
         this.fromUser = fromUser;
         this.createdAt = createdAt;
     }
+
+    public String getContent() {
+        return content;
+    }
+
+    public boolean isFromUser() {
+        return fromUser;
+    }
 }
