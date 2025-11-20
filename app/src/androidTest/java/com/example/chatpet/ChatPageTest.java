@@ -7,7 +7,7 @@ import androidx.test.core.app.ActivityScenario;
 
 import org.junit.Test;
 
-import com.example.chatpet.feature4.Pet;
+import com.example.chatpet.Pet;
 
 public class ChatPageTest {
 

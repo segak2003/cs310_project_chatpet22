@@ -12,7 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chatpet.ChatPage;
+import com.example.chatpet.Pet;
+import com.example.chatpet.PetInteractionController;
 import com.example.chatpet.PetJournalActivity;
+import com.example.chatpet.PointManager;
+import com.example.chatpet.PointsDelta;
 import com.example.chatpet.R;
 
 public class PetGrowthActivity extends AppCompatActivity {
@@ -75,7 +79,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         });
 
         btnSettings.setOnClickListener(v -> {
-            Intent intent = new Intent(PetGrowthActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(PetGrowthActivity.this, com.example.chatpet.feature4.SettingsActivity.class);
             startActivity(intent);
         });
 

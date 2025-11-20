@@ -186,7 +186,7 @@ public class PetJournalActivity extends AppCompatActivity {
         return new JournalEntryEntity(PET_ID, title, content, System.currentTimeMillis());
     }
 
-    private String generateContentBasedOnStats(int hunger, int happiness, int energy) {
+    String generateContentBasedOnStats(int hunger, int happiness, int energy) {
         StringBuilder content = new StringBuilder();
 
         // Hunger-based content
@@ -276,7 +276,7 @@ public class PetJournalActivity extends AppCompatActivity {
         return content.toString();
     }
 
-    private String generateTitleBasedOnStats(int hunger, int happiness, int energy) {
+    String generateTitleBasedOnStats(int hunger, int happiness, int energy) {
         // Generate title based on overall state
         int avgStat = (hunger + happiness + energy) / 3;
 
@@ -345,7 +345,7 @@ public class PetJournalActivity extends AppCompatActivity {
     }
 
     // Helper method to format timestamps nicely
-    private String formatDate(long timestamp) {
+    String formatDate(long timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy 'at' h:mm a", Locale.getDefault());
         return sdf.format(new Date(timestamp));
     }
