@@ -41,10 +41,13 @@ dependencies {
     implementation(libs.ext.junit)
     implementation(libs.runtime)
     testImplementation(libs.junit)
+
     testImplementation(libs.ext.junit)
     testImplementation("org.robolectric:robolectric:4.11.1")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    testImplementation("junit:junit:4.13.2")
 
     testImplementation("androidx.arch.core:core-testing:2.2.0") // [1]
     testImplementation("androidx.test:core:1.7.0")
