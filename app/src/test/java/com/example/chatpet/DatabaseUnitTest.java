@@ -27,7 +27,9 @@ import java.util.Date;
 import java.util.List;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE)
+@Config(sdk = 28,
+        manifest = Config.NONE,
+        qualifiers = "en-rUS")
 public class DatabaseUnitTest {
 
     private ChatPetDatabase db;

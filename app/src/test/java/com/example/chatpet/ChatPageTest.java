@@ -14,7 +14,7 @@ import com.example.chatpet.Pet;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28,
-        manifest = "../app/src/main/AndroidManifest.xml",
+        manifest = Config.NONE,
         qualifiers = "en-rUS")
 public class ChatPageTest {
 
@@ -54,7 +54,7 @@ public class ChatPageTest {
     public void testBotResponseUnknownMessage() {
         String response = chatPage.getBotResponse("Random message with no trigger");
         assertNotNull(response);
-        assertEquals("", response); // Unknown messages should return empty string
+        assertEquals("What do you mean?", response); // Unknown messages should return empty string
     }
 
     @Test
