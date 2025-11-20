@@ -44,9 +44,6 @@ public class ChatPage extends AppCompatActivity {
 
     private PetInteractionController controller;
 
-    private PetRepository petRepository;
-    private PetEntity currentPet;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -59,8 +56,6 @@ public class ChatPage extends AppCompatActivity {
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
 //            return insets;
 //        });
-
-        petRepository = new PetRepository(this);
 
         View root = findViewById(R.id.main);
         ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
@@ -176,19 +171,6 @@ public class ChatPage extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
-
-//    private void observeActivePet() {
-//        petRepository.observeActiveUser().observe(this, pet -> {
-//            currentPet = pet;
-//
-//            if (pet == null) {
-//                System.out.println("No active pet found!");
-//                return;
-//            }
-//
-//            System.out.println("Active pet loaded: " + pet.name);
-//        });
-//    }
 
 
 }
