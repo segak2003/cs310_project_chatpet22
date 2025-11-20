@@ -7,27 +7,28 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-//import com.example.a310_project_chatpet22.R;
+
+import com.example.chatpet.data.local.MessageEntity;
 
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
-    private List<Message> messageList;
+    private List<MessageEntity> messageList;
 
-    public MessageAdapter(List<Message> messageList) {
+    public MessageAdapter(List<MessageEntity> messageList) {
         this.messageList = messageList;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return messageList.get(position).isUser() ? 0 : 1;
+        return messageList.get(position).isFromUser() ? 0 : 1;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == 0)
-            view = LayoutInflater.from(parent.getContext()).inflate(com.example.chatpet.R.layout.item_user_message, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_message, parent, false);
         else
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bot_message, parent, false);
 
@@ -36,7 +37,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.textViewMessage.setText(messageList.get(position).getText());
+        holder.textViewMessage.setText(messageList.get(position).getContent());
     }
 
     @Override

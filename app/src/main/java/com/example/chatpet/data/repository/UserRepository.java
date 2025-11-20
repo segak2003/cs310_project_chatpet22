@@ -137,10 +137,12 @@ public class UserRepository {
         return userDao.observeById(activeUserId);
     }
 
-    public void setActiveUser(String username) {
+    public void setActiveUser(String username, Callback<Long> callback) {
         ioExecutor.execute(() -> {
             UserEntity user = userDao.getByUsername(username);
             setActiveUserId(user.userId);
+
+            new Handler(Looper.getMainLooper()).post(() -> callback.onComplete(user.userId));
         });
     }
 
