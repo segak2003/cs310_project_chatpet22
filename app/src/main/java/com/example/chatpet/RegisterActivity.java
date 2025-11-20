@@ -123,6 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
             cal.set(Calendar.DAY_OF_MONTH, day);
             Date birthday = cal.getTime();
 
+
             userRepository.createUser(username, password, fullName, birthday, selectedAvatarId, (userId) -> {
                 userRepository.setActiveUserId(userId);
             });
