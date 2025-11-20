@@ -3,11 +3,21 @@ package com.example.chatpet.feature4;
 import java.io.Serializable;
 
 public class Pet implements Serializable {
+    public Pet(){
+        id = "default";
+        type = Type.NONE;
+        name = "";
+    }
+    public Pet(Type type) {
+        this.type = type;
+    }
+
     public enum Stage { BABY, TEEN, ADULT, ELDER }
+    public enum Type { CAT, DRAGON, NONE }
 
     public String id = "default";
-    public String type = "dragon";
-    public String name = "Flame";
+    public Type type = Type.NONE;
+    public String name = "";
 
     // meters: 0..100
     public int hunger = 50;
@@ -22,12 +32,28 @@ public class Pet implements Serializable {
 
     public String spriteEmoji() {
         // Simple “graphics” using emoji per stage
-        switch (stage) {
-            case BABY: return "🐣";
-            case TEEN: return "🐲";
-            case ADULT: return "🐉";
-            case ELDER: default: return "🐉✨";
+        switch (type) {
+            case CAT:
+                switch (stage) {
+                    case BABY: return "🐱";
+                    case TEEN: return "😺";
+                    case ADULT: return "🐈";
+                    case ELDER: default: return "🐈✨";
+                }
+            case DRAGON:
+                switch (stage) {
+                    case BABY:
+                        return "🐣";
+                    case TEEN:
+                        return "🐲";
+                    case ADULT:
+                        return "🐉";
+                    case ELDER:
+                    default:
+                        return "🐉✨";
+                }
         }
+        return "❌";
     }
 
 

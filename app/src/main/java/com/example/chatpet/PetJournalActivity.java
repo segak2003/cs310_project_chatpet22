@@ -117,8 +117,10 @@ public class PetJournalActivity extends AppCompatActivity {
         UserDao userDao = database.userDao();
         UserEntity defaultUser = new UserEntity(
                 "GuestUser",                 // username
-                "guest@chatpet.com",         // email
                 "default_password",          // password (not used for this default)
+                "Guest Jones",
+                new Date(System.currentTimeMillis()),
+                0,
                 System.currentTimeMillis()   // createdAt
         );
         long userId = userDao.insert(defaultUser); // This returns the auto-generated user_id
@@ -130,6 +132,7 @@ public class PetJournalActivity extends AppCompatActivity {
                 "Buddy",                     // name
                 "dog",                       // animal
                 1,                           // level
+                0,
                 50,                          // happiness
                 50,                          // hunger
                 50,                          // energy
@@ -162,15 +165,15 @@ public class PetJournalActivity extends AppCompatActivity {
     private JournalEntryEntity createRandomEntry() {
         // Get pet stats to generate dynamic content
         PetEntity pet = petDao.getById(PET_ID);
-        
+
         String content;
         String title;
-        
+
         if (pet != null) {
             int hunger = pet.hunger;
             int happiness = pet.happiness;
             int energy = pet.energy;
-            
+
             // Generate content based on pet levels
             content = generateContentBasedOnStats(hunger, happiness, energy);
             title = generateTitleBasedOnStats(hunger, happiness, energy);
@@ -182,16 +185,16 @@ public class PetJournalActivity extends AppCompatActivity {
 
         return new JournalEntryEntity(PET_ID, title, content, System.currentTimeMillis());
     }
-    
-    protected String generateContentBasedOnStats(int hunger, int happiness, int energy) {
+
+    private String generateContentBasedOnStats(int hunger, int happiness, int energy) {
         StringBuilder content = new StringBuilder();
-        
+
         // Hunger-based content
         if (hunger < 30) {
             String[] hungryMessages = {
-                "I'm feeling quite hungry today. My tummy is rumbling and I keep thinking about food.",
-                "I could really use a good meal right now. Everything smells so delicious!",
-                "My stomach feels so empty. I hope my human remembers to feed me soon."
+                    "I'm feeling quite hungry today. My tummy is rumbling and I keep thinking about food.",
+                    "I could really use a good meal right now. Everything smells so delicious!",
+                    "My stomach feels so empty. I hope my human remembers to feed me soon."
             };
             content.append(hungryMessages[randomGenerator.nextInt(hungryMessages.length)]);
             if (happiness < 30) {
@@ -199,28 +202,28 @@ public class PetJournalActivity extends AppCompatActivity {
             }
         } else if (hunger < 70) {
             String[] normalMessages = {
-                "I had a decent meal today. Feeling pretty satisfied!",
-                "My appetite is just right. Not too hungry, not too full.",
-                "Food was good today. I'm content with what I ate."
+                    "I had a decent meal today. Feeling pretty satisfied!",
+                    "My appetite is just right. Not too hungry, not too full.",
+                    "Food was good today. I'm content with what I ate."
             };
             content.append(normalMessages[randomGenerator.nextInt(normalMessages.length)]);
         } else {
             String[] fullMessages = {
-                "I'm so full and satisfied! That meal was absolutely delicious!",
-                "My belly is happy and full. I couldn't eat another bite!",
-                "I ate so well today! Feeling completely satisfied and content."
+                    "I'm so full and satisfied! That meal was absolutely delicious!",
+                    "My belly is happy and full. I couldn't eat another bite!",
+                    "I ate so well today! Feeling completely satisfied and content."
             };
             content.append(fullMessages[randomGenerator.nextInt(fullMessages.length)]);
         }
-        
+
         content.append(" ");
-        
+
         // Energy-based content
         if (energy < 30) {
             String[] tiredMessages = {
-                "I'm feeling so tired and sleepy. All I want to do is curl up and rest.",
-                "My energy is really low today. I need a good long nap.",
-                "I'm exhausted and can barely keep my eyes open. Time for sleep!"
+                    "I'm feeling so tired and sleepy. All I want to do is curl up and rest.",
+                    "My energy is really low today. I need a good long nap.",
+                    "I'm exhausted and can barely keep my eyes open. Time for sleep!"
             };
             content.append(tiredMessages[randomGenerator.nextInt(tiredMessages.length)]);
             if (happiness < 30) {
@@ -228,55 +231,55 @@ public class PetJournalActivity extends AppCompatActivity {
             }
         } else if (energy < 70) {
             String[] normalMessages = {
-                "My energy level feels just right for some light activities.",
-                "I'm feeling moderately energetic. Ready for some gentle play!",
-                "I have enough energy to enjoy the day without overdoing it."
+                    "My energy level feels just right for some light activities.",
+                    "I'm feeling moderately energetic. Ready for some gentle play!",
+                    "I have enough energy to enjoy the day without overdoing it."
             };
             content.append(normalMessages[randomGenerator.nextInt(normalMessages.length)]);
         } else {
             String[] energeticMessages = {
-                "I'm bursting with energy! I want to run and play all day long!",
-                "I feel so energetic and alive! Let's go on an adventure!",
-                "I'm full of energy and ready for anything! Let's play!"
+                    "I'm bursting with energy! I want to run and play all day long!",
+                    "I feel so energetic and alive! Let's go on an adventure!",
+                    "I'm full of energy and ready for anything! Let's play!"
             };
             content.append(energeticMessages[randomGenerator.nextInt(energeticMessages.length)]);
         }
-        
+
         content.append(" ");
-        
+
         // Happiness-based content
         if (happiness < 30) {
             String[] sadMessages = {
-                "I'm feeling a bit down today. I could use some extra love and attention.",
-                "I'm not my usual cheerful self. Maybe some playtime would help.",
-                "I'm feeling sad and lonely. I hope things get better soon."
+                    "I'm feeling a bit down today. I could use some extra love and attention.",
+                    "I'm not my usual cheerful self. Maybe some playtime would help.",
+                    "I'm feeling sad and lonely. I hope things get better soon."
             };
             content.append(sadMessages[randomGenerator.nextInt(sadMessages.length)]);
         } else if (happiness < 70) {
             String[] contentMessages = {
-                "I'm feeling okay today. Life is pretty good!",
-                "I'm in a decent mood. Nothing special, but I'm content.",
-                "I'm feeling alright. Just a normal, peaceful day."
+                    "I'm feeling okay today. Life is pretty good!",
+                    "I'm in a decent mood. Nothing special, but I'm content.",
+                    "I'm feeling alright. Just a normal, peaceful day."
             };
             content.append(contentMessages[randomGenerator.nextInt(contentMessages.length)]);
         } else {
             String[] happyMessages = {
-                "I'm so incredibly happy! Life is wonderful and I love my human so much!",
-                "I'm filled with joy and happiness! Every moment is a blessing!",
-                "I'm the happiest pet in the world! I love everything about today!"
+                    "I'm so incredibly happy! Life is wonderful and I love my human so much!",
+                    "I'm filled with joy and happiness! Every moment is a blessing!",
+                    "I'm the happiest pet in the world! I love everything about today!"
             };
             content.append(happyMessages[randomGenerator.nextInt(happyMessages.length)]);
         }
-        
+
         content.append(" 🐾");
-        
+
         return content.toString();
     }
-    
-    protected String generateTitleBasedOnStats(int hunger, int happiness, int energy) {
+
+    private String generateTitleBasedOnStats(int hunger, int happiness, int energy) {
         // Generate title based on overall state
         int avgStat = (hunger + happiness + energy) / 3;
-        
+
         if (avgStat < 40) {
             String[] titles = {"A Tough Day", "Feeling Low", "Need Some Care", "Not My Best Day"};
             return titles[randomGenerator.nextInt(titles.length)];
@@ -342,7 +345,7 @@ public class PetJournalActivity extends AppCompatActivity {
     }
 
     // Helper method to format timestamps nicely
-    protected String formatDate(long timestamp) {
+    private String formatDate(long timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy 'at' h:mm a", Locale.getDefault());
         return sdf.format(new Date(timestamp));
     }
@@ -354,20 +357,4 @@ public class PetJournalActivity extends AppCompatActivity {
             dbExecutor.shutdown(); // Always clean up resources!
         }
     }
-
-    public long getPetId() {
-        return PET_ID;
-    }
-
-    public void refreshJournal() {
-        generateNewJournalEntry();
-    }
-
-    public String getCurrentEntryText() {
-        if (currentEntryDisplay != null) {
-            return currentEntryDisplay.getText().toString();
-        }
-        return "";
-    }
-
 }

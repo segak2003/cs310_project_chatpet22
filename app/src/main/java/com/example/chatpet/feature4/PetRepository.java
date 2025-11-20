@@ -14,7 +14,7 @@ public class PetRepository {
     public Pet load() {
         Pet p = new Pet();
         p.name = sp.getString("name", p.name);
-        p.type = sp.getString("type", p.type);
+        p.type = Pet.Type.valueOf(sp.getString("type", p.type.name()));
         p.hunger = sp.getInt("hunger", p.hunger);
         p.happiness = sp.getInt("happiness", p.happiness);
         p.energy = sp.getInt("energy", p.energy);
@@ -28,7 +28,7 @@ public class PetRepository {
     public void save(Pet p) {
         sp.edit()
                 .putString("name", p.name)
-                .putString("type", p.type)
+                .putString("type", p.type.name())
                 .putInt("hunger", p.hunger)
                 .putInt("happiness", p.happiness)
                 .putInt("energy", p.energy)

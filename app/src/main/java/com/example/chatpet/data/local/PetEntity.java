@@ -11,13 +11,6 @@ import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(
         tableName = "pets",
-        foreignKeys = @ForeignKey(
-                entity = UserEntity.class,
-                parentColumns = "user_id",
-                childColumns = "user_id",
-                onDelete = CASCADE,    // delete pet when user is deleted
-                onUpdate = CASCADE
-        ),
         indices = {
                 @Index(value = {"user_id"}, unique = true), // enforces 1:1 User->Pet
                 @Index(value = {"name"})
@@ -38,6 +31,7 @@ public class PetEntity {
     public String animal; // e.g., "cat", "dog", "dragon"
 
     public int level;      // progression level
+    public int levelPoints;// points earned toward next level
     public int happiness;  // happiness points
     public int hunger;     // hunger points
     public int energy;     // energy points
@@ -53,6 +47,7 @@ public class PetEntity {
                      @NonNull String name,
                      @NonNull String animal,
                      int level,
+                     int levelPoints,
                      int happiness,
                      int hunger,
                      int energy,
@@ -62,6 +57,7 @@ public class PetEntity {
         this.name = name;
         this.animal = animal;
         this.level = level;
+        this.levelPoints = levelPoints;
         this.happiness = happiness;
         this.hunger = hunger;
         this.energy = energy;

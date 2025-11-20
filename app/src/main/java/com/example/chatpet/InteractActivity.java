@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.R;
-import com.example.chatpet.domain.Pet;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,14 +35,14 @@ public class InteractActivity extends AppCompatActivity {
 
     private String petId;
 
-    Pet pet;
+//    Pet pet;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interact);
 
-        pet = new Pet(); // Delete when data connected
+//        pet = new Pet(); // Delete when data connected
 
         // Fix when data connected
         petId = getIntent().getStringExtra(EXTRA_PET_ID);
@@ -69,57 +68,57 @@ public class InteractActivity extends AppCompatActivity {
         feedButton.setOnClickListener(v -> {
             String selectedFood = (String) foodSpinner.getSelectedItem();
             hideKeyboard(v);
-            handleFeed(selectedFood);
+//            handleFeed(selectedFood);
         });
 
         sleepButton.setOnClickListener(v -> {
             hideKeyboard(v);
-            handleSleep();
+//            handleSleep();
         });
     }
 
-    private void handleFeed(String food) {
-        // Load pet (assumes in-memory or DB-backed repo)]
-        if (pet == null) {
-            Toast.makeText(this, "Could not find pet.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int foodAmount = foodToHungerDelta(food);
-        pet.feed(foodAmount);
-
-        Toast.makeText(this, "Fed " + pet.getName() + " (" + food + ")", Toast.LENGTH_SHORT).show();
-        goBackToChat();
-    }
-
-    private void handleSleep() {
-        String minutesStr = minutesInput.getText().toString().trim();
-        if (TextUtils.isEmpty(minutesStr)) {
-            minutesInput.setError("Enter minutes");
-            return;
-        }
-        int minutes;
-        try {
-            minutes = Integer.parseInt(minutesStr);
-        } catch (NumberFormatException e) {
-            minutesInput.setError("Invalid number");
-            return;
-        }
-        if (minutes <= 0) {
-            minutesInput.setError("Must be > 0");
-            return;
-        }
-
-        if (pet == null) {
-            Toast.makeText(this, "Could not find pet.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        pet.sleep(minutes);
-
-        Toast.makeText(this, "Tucked in " + pet.getName() + " for " + minutes + " min.", Toast.LENGTH_SHORT).show();
-        goBackToChat();
-    }
+//    private void handleFeed(String food) {
+//        // Load pet (assumes in-memory or DB-backed repo)]
+//        if (pet == null) {
+//            Toast.makeText(this, "Could not find pet.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        int foodAmount = foodToHungerDelta(food);
+//        pet.feed(foodAmount);
+//
+//        Toast.makeText(this, "Fed " + pet.getName() + " (" + food + ")", Toast.LENGTH_SHORT).show();
+//        goBackToChat();
+//    }
+//
+//    private void handleSleep() {
+//        String minutesStr = minutesInput.getText().toString().trim();
+//        if (TextUtils.isEmpty(minutesStr)) {
+//            minutesInput.setError("Enter minutes");
+//            return;
+//        }
+//        int minutes;
+//        try {
+//            minutes = Integer.parseInt(minutesStr);
+//        } catch (NumberFormatException e) {
+//            minutesInput.setError("Invalid number");
+//            return;
+//        }
+//        if (minutes <= 0) {
+//            minutesInput.setError("Must be > 0");
+//            return;
+//        }
+//
+//        if (pet == null) {
+//            Toast.makeText(this, "Could not find pet.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        pet.sleep(minutes);
+//
+//        Toast.makeText(this, "Tucked in " + pet.getName() + " for " + minutes + " min.", Toast.LENGTH_SHORT).show();
+//        goBackToChat();
+//    }
 
     private int foodToHungerDelta(String food) {
         // Tiny, hardcoded mapping for now
