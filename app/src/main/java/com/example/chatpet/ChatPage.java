@@ -22,11 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.lifecycle.Observer;
 
 
-import androidx.lifecycle.Observer;
-import com.example.chatpet.data.repository.PetRepository;
-import com.example.chatpet.data.local.PetEntity;
-
-
 //import com.example.a310_project_chatpet22.R;
 
 //import com.example.chatpet.R;
@@ -141,19 +136,23 @@ public class ChatPage extends AppCompatActivity {
     }
 
     // For now, fake a bot reply (you can replace this with API call later)
-    private String getBotResponse(String userMessage) {
+    String getBotResponse(String userMessage) {
         String lowerUserMessage = userMessage.toLowerCase();
         String botReply = "";
+
+        if(lowerUserMessage.isEmpty()){
+            return "What do you mean?";
+        }
 
         if(controller.getPet().type == Pet.Type.CAT){
             if(lowerUserMessage.contains("hi") ||lowerUserMessage.contains("hello") ){
                 botReply += "Hewwo to you too! ";
             }
-            if(lowerUserMessage.contains("love you")){
-                botReply += "I wuv you more! ";
-            }
             if(lowerUserMessage.contains("how are you")){
                 botReply += "I'm doing much better now that I'm talking to you :) ";
+            }
+            if(lowerUserMessage.contains("love")){
+                botReply += "I wuv you more! ";
             }
             if(lowerUserMessage.contains("what do")){
                 botReply += "Can we go on a walk later pweaseeeeee!!!";
@@ -208,5 +207,19 @@ public class ChatPage extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+
+    // ChatPage.java
+    void setPetForTesting(Pet pet, Context context) {
+        this.controller = new MockController(pet, context);
+    }
+
+    private static class MockController extends PetInteractionController {
+        private final Pet pet;
+        MockController(Pet pet, Context context) {
+            super(context); // Pass a valid context
+            this.pet = pet;
+        }
+        @Override public Pet getPet() { return pet; }
+    }
 
 }
