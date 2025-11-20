@@ -3,17 +3,19 @@ package com.example.chatpet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import androidx.xr.runtime.Config;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import com.example.chatpet.Pet;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = 28,
+        manifest = "../app/src/main/AndroidManifest.xml",
+        qualifiers = "en-rUS")
 public class ChatPageTest {
 
     private ChatPage chatPage;

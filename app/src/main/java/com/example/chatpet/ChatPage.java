@@ -140,12 +140,8 @@ public class ChatPage extends AppCompatActivity {
         String lowerUserMessage = userMessage.toLowerCase();
         String botReply = "";
 
-        if(lowerUserMessage.isEmpty()){
-            return "What do you mean?";
-        }
-
         if(controller.getPet().type == Pet.Type.CAT){
-            if(lowerUserMessage.contains("hi") ||lowerUserMessage.contains("hello") ){
+            if(lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello") ){
                 botReply += "Hewwo to you too! ";
             }
             if(lowerUserMessage.contains("how are you")){
@@ -159,6 +155,10 @@ public class ChatPage extends AppCompatActivity {
             }
             if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
                 botReply += "Nooo please come back soon :( ";
+            }
+
+            if(botReply.isEmpty()){
+                botReply += "What do you mean?";
             }
         }
         else {
@@ -176,6 +176,10 @@ public class ChatPage extends AppCompatActivity {
             }
             if (lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")) {
                 botReply += "Nooo please come back soon :( I will miss you.";
+            }
+
+            if(botReply.isEmpty()){
+                botReply += "What do you mean?";
             }
         }
 
