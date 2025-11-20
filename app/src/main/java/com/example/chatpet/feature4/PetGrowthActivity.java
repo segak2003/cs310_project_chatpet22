@@ -1,30 +1,56 @@
 package com.example.chatpet.feature4;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.example.chatpet.ChatPage;
 import com.example.chatpet.PetJournalActivity;
 import com.example.chatpet.R;
 
+
 public class PetGrowthActivity extends AppCompatActivity {
+
 
     private PetInteractionController controller;
 
+
     private TextView tvEmoji, tvStage, tvPoints, tvReply, tvName, tvDelta;
     private ProgressBar barHunger, barHappiness, barEnergy;
+
+
+    // main action buttons
     private Button btnChat, btnFeed, btnTuck, btnJournal;
 
+
+    // layouts
+    private LinearLayout layoutMainButtons;
+    private LinearLayout layoutFeedChoices;
+
+
+    // food buttons
+    private Button btnFoodKibble, btnFoodFish, btnFoodPizza;
+
+
+    // reset button
+    private Button btnReset;
+
+
+    // periodic decay
     private Handler barsHandler = new Handler();
     private Runnable barsRunnable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +58,24 @@ public class PetGrowthActivity extends AppCompatActivity {
         controller = new PetInteractionController(this);
         setContentView(R.layout.activity_pet_growth);
 
-        startBarsDecay();
 
+        // If pet not initialized yet, read from Intent
         if (controller.getPet().type == Pet.Type.NONE) {
             Intent startIntent = getIntent();
             String petType = startIntent.getStringExtra("PET_TYPE");
             String petName = startIntent.getStringExtra("PET_NAME");
 
-            controller.getPet().type = Pet.Type.valueOf(petType);
-            controller.getPet().name = petName;
+
+            if (petType != null) {
+                controller.getPet().type = Pet.Type.valueOf(petType);
+            }
+            if (petName != null) {
+                controller.getPet().name = petName;
+            }
         }
 
+
+        // text + bars
         tvEmoji = findViewById(R.id.tvEmoji);
         tvName = findViewById(R.id.tvName);
         tvStage = findViewById(R.id.tvStage);
@@ -50,48 +83,192 @@ public class PetGrowthActivity extends AppCompatActivity {
         tvReply = findViewById(R.id.tvReply);
         tvDelta = findViewById(R.id.tvDelta);
 
+
         barHunger = findViewById(R.id.barHunger);
         barHappiness = findViewById(R.id.barHappiness);
         barEnergy = findViewById(R.id.barEnergy);
 
+
+        // layouts
+        layoutMainButtons = findViewById(R.id.layoutMainButtons);
+        layoutFeedChoices = findViewById(R.id.layoutFeedChoices);
+
+
+        // main buttons
         btnChat = findViewById(R.id.btnChat);
         btnFeed = findViewById(R.id.btnFeed);
         btnTuck = findViewById(R.id.btnTuck);
         btnJournal = findViewById(R.id.btnJournal);
 
-        btnChat.setOnClickListener(v -> {handleInteraction(PointManager.InteractionType.CHAT);
-        Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
-        startActivity(intent);
-        tvReply.setText("That was a great conversation!");});
-        btnJournal.setOnClickListener(v -> {Intent intent = new Intent(PetGrowthActivity.this, PetJournalActivity.class);
-            startActivity(intent);});
-        btnFeed.setOnClickListener(v -> {handleInteraction(PointManager.InteractionType.FEED);
-            tvReply.setText("Yum yum!");
-    }   );
-        btnTuck.setOnClickListener(v -> {
-            handleInteraction(PointManager.InteractionType.TUCK);
-            tvReply.setText("Zzz");
+
+        // food buttons
+        btnFoodKibble = findViewById(R.id.btnFoodKibble);
+        btnFoodFish = findViewById(R.id.btnFoodFish);
+        btnFoodPizza = findViewById(R.id.btnFoodPizza);
+
+
+        // reset button
+        btnReset = findViewById(R.id.btnReset);
+
+
+        // --- LISTENERS ---
+
+
+        // Chat: apply interaction + open ChatPage
+        btnChat.setOnClickListener(v -> {
+            handleInteraction(PointManager.InteractionType.CHAT);
+            Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
+            startActivity(intent);
         });
 
+
+        // Tuck in
+        btnTuck.setOnClickListener(v ->
+                handleInteraction(PointManager.InteractionType.TUCK));
+
+
+        // Feed: show food choices row, hide main buttons & journal
+        btnFeed.setOnClickListener(v -> {
+            layoutMainButtons.setVisibility(View.GONE);
+            btnJournal.setVisibility(View.GONE);
+            layoutFeedChoices.setVisibility(View.VISIBLE);
+            tvReply.setText("What should I eat? 😋");
+        });
+
+
+        // food selection interactions
+        btnFoodKibble.setOnClickListener(v -> {
+            tvReply.setText("Yum! Kibble was tasty! 🍖");
+            handleInteraction(PointManager.InteractionType.FEED);
+            restoreMainButtons();
+        });
+
+
+        btnFoodFish.setOnClickListener(v -> {
+            tvReply.setText("Mmm, fresh fish! 🐟");
+            handleInteraction(PointManager.InteractionType.FEED);
+            restoreMainButtons();
+        });
+
+
+        btnFoodPizza.setOnClickListener(v -> {
+            tvReply.setText("Pizza time! 🍕");
+            handleInteraction(PointManager.InteractionType.FEED);
+            restoreMainButtons();
+        });
+
+
+        // Journal button -> PetJournalActivity
+        btnJournal.setOnClickListener(v -> {
+            Intent intent = new Intent(PetGrowthActivity.this, PetJournalActivity.class);
+            startActivity(intent);
+        });
+
+
+        // reset button listener
+        btnReset.setOnClickListener(v -> {
+            controller.resetPet();
+            Toast.makeText(this, "Pet reset!", Toast.LENGTH_SHORT).show();
+            refreshUI();
+        });
+
+
+        // apply offline decay since last session
+        controller.applyTimeDecay();
+
+
+        // start periodic bar + points decay while activity is running
+        startBarsDecay();
+
+
+        // initial UI
         refreshUI();
     }
 
-    private void handleInteraction(PointManager.InteractionType type) {
-        PointsDelta d;
-        if (type == PointManager.InteractionType.CHAT) d = controller.onChatCompleted();
-        else if (type == PointManager.InteractionType.FEED) d = controller.onFeedCompleted();
-        else d = controller.onTuckCompleted();
 
-        tvReply.setText(controller.replyFor(type));
+    private void handleInteraction(PointManager.InteractionType type) {
+        Pet current = controller.getPet();
+
+
+        // Guardrails based on meters
+        if (type == PointManager.InteractionType.FEED && current.hunger >= 100) {
+            Toast.makeText(this, "Your pet is already full!", Toast.LENGTH_SHORT).show();
+            tvReply.setText("I'm stuffed... I can't eat anymore!");
+            return;
+        }
+
+
+        if (type == PointManager.InteractionType.TUCK && current.energy >= 100) {
+            Toast.makeText(this, "Your pet is fully rested!", Toast.LENGTH_SHORT).show();
+            tvReply.setText("I'm already fully rested! ⚡");
+            return;
+        }
+
+
+        // Can't chat if energy is too low
+        if (type == PointManager.InteractionType.CHAT && current.energy <= 5) {
+            Toast.makeText(this, "Too tired to chat!", Toast.LENGTH_SHORT).show();
+            tvReply.setText("I'm too tired to talk... zZz");
+            return;
+        }
+
+
+        PointsDelta d;
+        if (type == PointManager.InteractionType.CHAT) {
+            d = controller.onChatCompleted();
+        } else if (type == PointManager.InteractionType.FEED) {
+            d = controller.onFeedCompleted();
+        } else {
+            d = controller.onTuckCompleted();
+        }
+
+
+        if (type == PointManager.InteractionType.CHAT ||
+                type == PointManager.InteractionType.TUCK) {
+            tvReply.setText(controller.replyFor(type));
+        }
+
+
         showDeltaAnimation("+" + d.delta + " pts");
+
 
         if (d.leveledUp) {
             Toast.makeText(this,
                     "LEVEL UP! " + d.fromStage + " → " + d.toStage,
                     Toast.LENGTH_LONG).show();
         }
+
+
         refreshUI();
+
+
+        if (type == PointManager.InteractionType.TUCK) {
+            startSleepPause();
+        }
     }
+
+
+    private void startSleepPause() {
+        btnChat.setEnabled(false);
+        btnFeed.setEnabled(false);
+        btnTuck.setEnabled(false);
+        layoutFeedChoices.setEnabled(false);
+
+
+        tvReply.setText("Your pet is sleeping... 😴");
+
+
+        tvEmoji.postDelayed(() -> {
+            btnChat.setEnabled(true);
+            btnFeed.setEnabled(true);
+            btnTuck.setEnabled(true);
+            layoutFeedChoices.setEnabled(true);
+
+
+            tvReply.setText("All rested up and ready! 💪");
+        }, 3000);
+    }
+
 
     private void refreshUI() {
         Pet p = controller.getPet();
@@ -100,10 +277,12 @@ public class PetGrowthActivity extends AppCompatActivity {
         tvStage.setText("Stage: " + p.stage + "  (Lv " + p.level + ")");
         tvPoints.setText("Points: " + p.points);
 
+
         barHunger.setProgress(p.hunger);
         barHappiness.setProgress(p.happiness);
         barEnergy.setProgress(p.energy);
     }
+
 
     private void showDeltaAnimation(String text) {
         tvDelta.setText(text);
@@ -121,56 +300,58 @@ public class PetGrowthActivity extends AppCompatActivity {
                 .start();
     }
 
+
+    private void restoreMainButtons() {
+        layoutMainButtons.setVisibility(View.VISIBLE);
+        layoutFeedChoices.setVisibility(View.GONE);
+        btnJournal.setVisibility(View.VISIBLE);
+    }
+
+
+    // ===== periodic decay: meters + points =====
     private void startBarsDecay() {
         barsRunnable = new Runnable() {
             @Override
             public void run() {
                 decreasePoints(controller.getPet());
-                // Schedule again after 30 seconds
-                barsHandler.postDelayed(this, 30_000);
+                // Schedule again after 2 minutes
+                barsHandler.postDelayed(this, 60_000);
             }
         };
 
-        // Start the first execution
-        barsHandler.postDelayed(barsRunnable, 30_000);
+
+        // Run once immediately, then every 2 minutes
+        barsHandler.post(barsRunnable);
     }
 
+
     private void decreasePoints(Pet pet) {
-        // Decrease points safely
-        if (pet.hunger > 14) {
-            pet.hunger -= 15;
-        }
-        else if(pet.hunger > 0){
-            pet.hunger--;
+        // Gentle meter decay
+        if (pet.hunger > 0) {
+            pet.hunger -= 2;
         }
 
-        if (pet.energy > 14) {
-            pet.energy -= 15;
-        }
-        else if(pet.energy > 0){
-            pet.energy--;
-        }
-        if (pet.happiness > 14) {
-            pet.happiness -= 15;
-        }
-        else if(pet.happiness > 0){
-            pet.happiness--;
+
+        if (pet.energy > 0) {
+            pet.energy -= 2;
         }
 
-        if(pet.happiness == 0 || pet.energy == 0 || pet.hunger == 0){
-            if (pet.points > 4){
-                pet.points -= 5;
-            }
+
+        if (pet.happiness > 0) {
+            pet.happiness -= 2;
         }
 
-        // Optional: update UI
-        // For example, update a TextView showing points
-        // pointsTextView.setText(String.valueOf(pet.points));
+
+        // Re-check level in case losing points should affect stage/level
+        PointManager.checkLevelUp(pet);
+
+
         runOnUiThread(this::refreshUI);
     }
 
+
     @Override
-    protected  void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         barsHandler.removeCallbacks(barsRunnable);
     }

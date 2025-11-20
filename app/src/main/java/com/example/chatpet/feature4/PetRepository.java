@@ -1,15 +1,19 @@
 package com.example.chatpet.feature4;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
+
 
 public class PetRepository {
     private static final String PREFS = "chatpet_prefs";
     private final SharedPreferences sp;
 
+
     public PetRepository(Context ctx) {
         this.sp = ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
     }
+
 
     public Pet load() {
         Pet p = new Pet();
@@ -25,6 +29,7 @@ public class PetRepository {
         return p;
     }
 
+
     public void save(Pet p) {
         sp.edit()
                 .putString("name", p.name)
@@ -37,5 +42,11 @@ public class PetRepository {
                 .putString("stage", p.stage.name())
                 .putLong("lastUpdatedMs", p.lastUpdatedMs)
                 .apply();
+    }
+
+
+    // Used by PetInteractionController.resetPet()
+    public void clear() {
+        sp.edit().clear().apply();
     }
 }
