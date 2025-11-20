@@ -22,10 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 //import com.example.chatpet.R;
 
-import com.example.chatpet.feature4.Pet;
-import com.example.chatpet.feature4.PetGrowthActivity;
-import com.example.chatpet.feature4.PetInteractionController;
-
 import java.util.ArrayList;
 import java.util.List;
 

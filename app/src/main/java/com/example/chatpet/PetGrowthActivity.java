@@ -1,4 +1,4 @@
-package com.example.chatpet.feature4;
+package com.example.chatpet;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,11 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-import com.example.chatpet.ChatPage;
-import com.example.chatpet.PetJournalActivity;
-import com.example.chatpet.R;
 
 
 public class PetGrowthActivity extends AppCompatActivity {
@@ -166,11 +161,8 @@ public class PetGrowthActivity extends AppCompatActivity {
 
 
         // reset button listener
-        btnReset.setOnClickListener(v -> {
-            controller.resetPet();
-            Toast.makeText(this, "Pet reset!", Toast.LENGTH_SHORT).show();
-            refreshUI();
-        });
+        btnReset.setEnabled(false);
+        btnReset.setAlpha(0.4f);
 
 
         // apply offline decay since last session

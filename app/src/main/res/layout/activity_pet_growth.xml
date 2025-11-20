@@ -3,14 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp"
         android:gravity="center_horizontal">
-
 
         <TextView
             android:id="@+id/tvEmoji"
@@ -19,7 +17,6 @@
             android:text="🐣"
             android:textSize="72sp"
             android:padding="8dp" />
-
 
         <TextView
             android:id="@+id/tvDelta"
@@ -31,7 +28,6 @@
             android:visibility="gone"
             android:paddingTop="4dp" />
 
-
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
@@ -39,7 +35,6 @@
             android:text="Flame the dragon"
             android:textSize="18sp"
             android:paddingTop="12dp" />
-
 
         <TextView
             android:id="@+id/tvStage"
@@ -49,7 +44,6 @@
             android:textSize="16sp"
             android:paddingTop="4dp" />
 
-
         <TextView
             android:id="@+id/tvPoints"
             android:layout_width="wrap_content"
@@ -58,7 +52,6 @@
             android:textSize="16sp"
             android:paddingTop="2dp"
             android:paddingBottom="12dp" />
-
 
         <!-- meters -->
         <TextView
@@ -74,7 +67,6 @@
             android:max="100"
             android:progress="50" />
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +80,6 @@
             android:layout_height="16dp"
             android:max="100"
             android:progress="50" />
-
 
         <TextView
             android:layout_width="match_parent"
@@ -104,8 +95,7 @@
             android:max="100"
             android:progress="50" />
 
-
-        <!-- main buttons row -->
+        <!-- action buttons -->
         <LinearLayout
             android:id="@+id/layoutMainButtons"
             android:layout_width="match_parent"
@@ -114,14 +104,12 @@
             android:gravity="center"
             android:paddingTop="16dp">
 
-
             <Button
                 android:id="@+id/btnChat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Chat 💬" />
-
 
             <Button
                 android:id="@+id/btnFeed"
@@ -132,7 +120,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp" />
 
-
             <Button
                 android:id="@+id/btnTuck"
                 android:layout_width="0dp"
@@ -141,8 +128,6 @@
                 android:text="Tuck 😴" />
         </LinearLayout>
 
-
-        <!-- NEW: Journal button -->
         <Button
             android:id="@+id/btnJournal"
             android:layout_width="wrap_content"
@@ -150,8 +135,7 @@
             android:text="Journal 📓"
             android:layout_marginTop="8dp" />
 
-
-        <!-- feed choices row (hidden by default) -->
+        <!-- feed options -->
         <LinearLayout
             android:id="@+id/layoutFeedChoices"
             android:layout_width="match_parent"
@@ -161,14 +145,12 @@
             android:paddingTop="16dp"
             android:visibility="gone">
 
-
             <Button
                 android:id="@+id/btnFoodKibble"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Kibble 🍖" />
-
 
             <Button
                 android:id="@+id/btnFoodFish"
@@ -179,7 +161,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp" />
 
-
             <Button
                 android:id="@+id/btnFoodPizza"
                 android:layout_width="0dp"
@@ -187,7 +168,6 @@
                 android:layout_weight="1"
                 android:text="Pizza 🍕" />
         </LinearLayout>
-
 
         <TextView
             android:id="@+id/tvReply"
@@ -199,15 +179,16 @@
             android:paddingTop="18dp"
             android:paddingBottom="24dp" />
 
-
+        <!-- ❌ RESET BUTTON -->
+        <!-- I only use it for testing while developing
+            will remove for implementation 2.5 -->
         <Button
             android:id="@+id/btnReset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reset Pet" />
+
+
     </LinearLayout>
 
-
 </ScrollView>
-
-
