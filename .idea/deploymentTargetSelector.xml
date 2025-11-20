@@ -13,6 +13,8 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+      <SelectionState runConfigName="PetJournalActivityBlackBoxTest">
+
       <SelectionState runConfigName="RegisterActivityTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
