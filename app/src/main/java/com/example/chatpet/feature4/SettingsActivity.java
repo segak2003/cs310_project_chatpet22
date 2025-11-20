@@ -36,12 +36,12 @@ public class SettingsActivity extends AppCompatActivity {
     RadioButton rbMaleYellow, rbMaleWhite, rbMaleBrown;
 
     // Avatar IDs
-    private static final int AVATAR_FEMALE_YELLOW = 0;
-    private static final int AVATAR_FEMALE_WHITE = 1;
-    private static final int AVATAR_FEMALE_BROWN = 2;
-    private static final int AVATAR_MALE_YELLOW = 3;
-    private static final int AVATAR_MALE_WHITE = 4;
-    private static final int AVATAR_MALE_BROWN = 5;
+    public static final int AVATAR_FEMALE_YELLOW = 0;
+    public static final int AVATAR_FEMALE_WHITE = 1;
+    public static final int AVATAR_FEMALE_BROWN = 2;
+    public static final int AVATAR_MALE_YELLOW = 3;
+    public static final int AVATAR_MALE_WHITE = 4;
+    public static final int AVATAR_MALE_BROWN = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
