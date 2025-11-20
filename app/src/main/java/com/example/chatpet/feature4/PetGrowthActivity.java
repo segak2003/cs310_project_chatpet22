@@ -21,7 +21,7 @@ public class PetGrowthActivity extends AppCompatActivity {
 
     private TextView tvEmoji, tvStage, tvPoints, tvReply, tvName, tvDelta;
     private ProgressBar barHunger, barHappiness, barEnergy;
-    private Button btnChat, btnFeed, btnTuck, btnJournal;
+    private Button btnChat, btnFeed, btnTuck, btnJournal, btnSettings;
 
     private Handler barsHandler = new Handler();
     private Runnable barsRunnable;
@@ -58,6 +58,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         btnFeed = findViewById(R.id.btnFeed);
         btnTuck = findViewById(R.id.btnTuck);
         btnJournal = findViewById(R.id.btnJournal);
+        btnSettings = findViewById(R.id.btnSettings);
 
         btnChat.setOnClickListener(v -> {handleInteraction(PointManager.InteractionType.CHAT);
         Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
@@ -71,6 +72,11 @@ public class PetGrowthActivity extends AppCompatActivity {
         btnTuck.setOnClickListener(v -> {
             handleInteraction(PointManager.InteractionType.TUCK);
             tvReply.setText("Zzz");
+        });
+
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(PetGrowthActivity.this, SettingsActivity.class);
+            startActivity(intent);
         });
 
         refreshUI();
