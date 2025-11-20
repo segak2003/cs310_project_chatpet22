@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.data.repository.UserRepository;
+import com.example.chatpet.feature4.PetGrowthActivity;
 
 public class LoginActivity extends AppCompatActivity {
     UserRepository userRepository;
@@ -30,11 +30,20 @@ public class LoginActivity extends AppCompatActivity {
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter both fields", Toast.LENGTH_SHORT).show();
+            // --- Basic validation ---
+            if (username.isEmpty()) {
+                etUsername.setError("Username is required");
+                etUsername.requestFocus();
                 return;
             }
 
+            if (password.isEmpty()) {
+                etPassword.setError("Password is required");
+                etPassword.requestFocus();
+                return;
+            }
+
+            // --- Async validation ---
             userRepository.isUsernameTaken(username, (taken) -> {
                 if (!taken) {
                     etUsername.setError("Incorrect username");
@@ -45,11 +54,12 @@ public class LoginActivity extends AppCompatActivity {
                             etPassword.setError("Incorrect password");
                             etPassword.requestFocus();
                         } else {
-                            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            // Login successful
                             userRepository.setActiveUser(username);
-                            Intent intent = new Intent(this, ProfileActivity.class);
+                            Intent intent = new Intent(this, PetGrowthActivity.class);
                             intent.putExtra("USERNAME", username);
                             startActivity(intent);
+                            finish(); // optional: close login activity
                         }
                     });
                 }
