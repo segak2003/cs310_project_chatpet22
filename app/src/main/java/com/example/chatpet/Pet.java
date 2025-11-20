@@ -5,6 +5,15 @@ import java.io.Serializable;
 
 
 public class Pet implements Serializable {
+    public Pet(){
+        id = "default";
+        type = Type.NONE;
+        name = "";
+    }
+    public Pet(Type type) {
+        this.type = type;
+    }
+
     public enum Stage { BABY, TEEN, ADULT, ELDER }
     public enum Type { CAT, DRAGON, NONE }
 
