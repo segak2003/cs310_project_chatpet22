@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.data.repository.UserRepository;
+import com.example.chatpet.feature4.PetGrowthActivity;
 
 public class LoginActivity extends AppCompatActivity {
     UserRepository userRepository;
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
                             userRepository.setActiveUser(username);
-                            Intent intent = new Intent(this, ProfileActivity.class);
+                            Intent intent = new Intent(this, PetGrowthActivity.class);
                             intent.putExtra("USERNAME", username);
                             startActivity(intent);
                         }
