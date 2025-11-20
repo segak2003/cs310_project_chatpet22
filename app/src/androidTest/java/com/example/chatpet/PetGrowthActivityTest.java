@@ -11,7 +11,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.Visibility.GONE;
 import static androidx.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
 
 import android.content.Intent;
+import android.widget.TextView;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -125,18 +127,30 @@ public class PetGrowthActivityTest {
                 .check(matches(withText(Matchers.containsString("sleeping"))));
     }
 
-    /**
-     * Test 5: Reset button is clickable and UI is still in a valid state.
-     * (We keep this simple as a black-box sanity test.)
-     */
+
     @Test
-    public void resetButton_resetsWithoutCrashingAndShowsName() {
-        onView(withId(R.id.btnReset)).perform(click());
+    public void choosingPizza_updatesReplyTextAndRestoresLayout() {
+        // Open the food choices
+        onView(withId(R.id.btnFeed)).perform(click());
 
-        // After reset, name label should still be visible
-        onView(withId(R.id.tvName)).check(matches(isDisplayed()));
+        // Tap the Pizza option
+        onView(withId(R.id.btnFoodPizza)).perform(click());
 
-        // And the reply text should be visible
-        onView(withId(R.id.tvReply)).check(matches(isDisplayed()));
+        // Reply text should reflect the pizza choice
+        onView(withId(R.id.tvReply))
+                .check(matches(withText("Pizza time! 🍕")));
+
+        // Main buttons row should be visible again
+        onView(withId(R.id.layoutMainButtons))
+                .check(matches(withEffectiveVisibility(VISIBLE)));
+
+        // Food choices row should be hidden
+        onView(withId(R.id.layoutFeedChoices))
+                .check(matches(withEffectiveVisibility(GONE)));
+
+        // Journal button should be visible again
+        onView(withId(R.id.btnJournal))
+                .check(matches(withEffectiveVisibility(VISIBLE)));
     }
+
 }
