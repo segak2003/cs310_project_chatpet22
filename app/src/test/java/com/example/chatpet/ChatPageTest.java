@@ -15,10 +15,7 @@ import org.robolectric.annotation.Config;
 import com.example.chatpet.feature4.Pet;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = 28,
-        manifest = "../app/src/main/AndroidManifest.xml",
-        qualifiers = "en-rUS")
-public class ChatPageBlackBoxTest {
+public class ChatPageTest {
 
     private ChatPage chatPage;
 
