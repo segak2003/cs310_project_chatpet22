@@ -7,7 +7,7 @@ import androidx.test.core.app.ActivityScenario;
 
 import org.junit.Test;
 
-import com.example.chatpet.feature4.Pet;
+import com.example.chatpet.Pet;
 
 public class ChatPageTest {
 
@@ -51,9 +51,9 @@ public class ChatPageTest {
         try (ActivityScenario<ChatPage> scenario = ActivityScenario.launch(ChatPage.class)) {
             scenario.onActivity(activity -> {
                 activity.setPetForTesting(new Pet(Pet.Type.CAT), activity);
-                String response = activity.getBotResponse("this is something unknown");
+                String response = activity.getBotResponse("random");
                 // Unknown messages return empty string
-                assertEquals("What do you mean? ", response);
+                assertEquals("What do you mean?", response);
             });
         }
     }

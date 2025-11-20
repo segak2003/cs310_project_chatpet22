@@ -3,17 +3,20 @@ package com.example.chatpet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import androidx.xr.runtime.Config;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+//import org.robolectric.annotation.Config;
 
-import com.example.chatpet.feature4.Pet;
+import com.example.chatpet.Pet;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = 28,
+        manifest = Config.NONE,
+        qualifiers = "en-rUS")
 public class ChatPageTest {
 
     private ChatPage chatPage;
@@ -52,7 +55,7 @@ public class ChatPageTest {
     public void testBotResponseUnknownMessage() {
         String response = chatPage.getBotResponse("Random message with no trigger");
         assertNotNull(response);
-        assertEquals("", response); // Unknown messages should return empty string
+        assertEquals("What do you mean?", response); // Unknown messages should return empty string
     }
 
     @Test

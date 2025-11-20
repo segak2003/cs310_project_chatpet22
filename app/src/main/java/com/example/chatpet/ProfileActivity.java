@@ -1,7 +1,7 @@
 package com.example.chatpet;
 
-import static com.example.chatpet.feature4.Pet.Type.CAT;
-import static com.example.chatpet.feature4.Pet.Type.DRAGON;
+import static com.example.chatpet.Pet.Type.CAT;
+import static com.example.chatpet.Pet.Type.DRAGON;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.data.repository.PetRepository;
 import com.example.chatpet.feature4.PetGrowthActivity;
-import com.example.chatpet.feature4.PetInteractionController;
+import com.example.chatpet.PetInteractionController;
 
 public class ProfileActivity extends AppCompatActivity {
     PetRepository petRepository;

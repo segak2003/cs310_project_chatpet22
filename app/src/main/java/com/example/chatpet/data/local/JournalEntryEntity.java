@@ -11,13 +11,6 @@ import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(
         tableName = "journal_entries",
-        foreignKeys = @ForeignKey(
-                entity = PetEntity.class,
-                parentColumns = "pet_id",
-                childColumns = "pet_id",
-                onDelete = CASCADE,  // delete entries when pet is deleted
-                onUpdate = CASCADE
-        ),
         indices = {
                 @Index(value = {"pet_id"}),
                 @Index(value = {"created_at"})

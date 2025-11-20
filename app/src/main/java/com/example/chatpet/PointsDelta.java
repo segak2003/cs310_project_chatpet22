@@ -1,4 +1,4 @@
-package com.example.chatpet.feature4;
+package com.example.chatpet;
 
 public class PointsDelta {
     public final int delta;
