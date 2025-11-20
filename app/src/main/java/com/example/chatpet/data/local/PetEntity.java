@@ -11,13 +11,6 @@ import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(
         tableName = "pets",
-        foreignKeys = @ForeignKey(
-                entity = UserEntity.class,
-                parentColumns = "user_id",
-                childColumns = "user_id",
-                onDelete = CASCADE,    // delete pet when user is deleted
-                onUpdate = CASCADE
-        ),
         indices = {
                 @Index(value = {"user_id"}, unique = true), // enforces 1:1 User->Pet
                 @Index(value = {"name"})

@@ -38,8 +38,13 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
+    testImplementation(libs.ext.junit)
+    testImplementation("org.robolectric:robolectric:4.11.1")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    testImplementation("androidx.arch.core:core-testing:2.2.0") // [1]
+    testImplementation("androidx.test:core:1.7.0")
 
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
