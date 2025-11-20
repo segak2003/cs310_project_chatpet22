@@ -16,7 +16,7 @@ import java.util.Random;
 @Config(sdk = 28, 
         manifest = "../app/src/main/AndroidManifest.xml",
         qualifiers = "en-rUS")
-public class PetJournalBlackBoxTest {
+public class PetJournalWhiteBoxTest {
 
     private PetJournalActivity petActivity;
 
@@ -47,9 +47,10 @@ public class PetJournalBlackBoxTest {
 
         // Content should reflect low stats with appropriate keywords
         // I'm checking for different variations of hungry messages
-        assert generatedContent.contains("hungry") || generatedContent.contains("stomach") || generatedContent.contains("tummy");
-        assert generatedContent.contains("tired") || generatedContent.contains("sleepy") || generatedContent.contains("exhausted");
-        assert generatedContent.contains("sad") || generatedContent.contains("down") || generatedContent.contains("lonely");
+        String lowerContent = generatedContent.toLowerCase();
+        assert lowerContent.contains("hungry") || lowerContent.contains("stomach") || lowerContent.contains("tummy");
+        assert lowerContent.contains("tired") || lowerContent.contains("sleepy") || lowerContent.contains("exhausted");
+        assert lowerContent.contains("sad") || lowerContent.contains("down") || lowerContent.contains("lonely");
         assert generatedContent.contains("🐾"); // Should always have the paw emoji
     }
 

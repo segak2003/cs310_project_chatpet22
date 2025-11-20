@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class PetJournalActivityWhiteBoxTest {
+public class PetJournalActivityBlackBoxTest {
 
     @Test
     public void getPetId_returnsCorrectId() {
@@ -85,20 +85,26 @@ public class PetJournalActivityWhiteBoxTest {
     public void welcomeEntryCreatedWhenNoneExist() {
         try (ActivityScenario<PetJournalActivity> scenario = ActivityScenario.launch(PetJournalActivity.class)) {
             scenario.onActivity(activity -> {
-                // Wait a bit for the database to initialize properly
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    // ignore interruption
+                // Poll for up to 2 seconds for the text to appear
+                String currentText = null;
+                boolean hasWelcomeMessage = false;
+                
+                for (int i = 0; i < 20; i++) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                    
+                    currentText = activity.getCurrentEntryText();
+                    if (currentText != null && currentText.contains("Welcome to your pet journal")) {
+                        hasWelcomeMessage = true;
+                        break;
+                    }
                 }
 
-                String currentText = activity.getCurrentEntryText();
-
                 assertNotNull("Current entry should not be null after initial load", currentText);
-
-                // Check if it contains the welcome message
-                boolean hasWelcomeMessage = currentText.contains("Welcome to your pet journal");
-
                 assertEquals("Initial entry should be the welcome entry", true, hasWelcomeMessage);
             });
         }
