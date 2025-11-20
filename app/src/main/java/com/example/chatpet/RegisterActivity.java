@@ -151,15 +151,10 @@ public class RegisterActivity extends AppCompatActivity {
             cal.set(year, month, day);
             Date birthday = cal.getTime();
 
-            // --- Create user in database ---
-            userRepository.createUser(
-                    username,
-                    password,
-                    fullName,
-                    birthday,
-                    selectedAvatarId,
-                    userId -> userRepository.setActiveUserId(userId)
-            );
+
+            userRepository.createUser(username, password, fullName, birthday, selectedAvatarId, (userId) -> {
+                userRepository.setActiveUserId(userId);
+            });
 
             Toast.makeText(this, "Registered successfully!", Toast.LENGTH_SHORT).show();
 

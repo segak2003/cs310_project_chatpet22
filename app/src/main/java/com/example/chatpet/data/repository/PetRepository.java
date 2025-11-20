@@ -152,9 +152,11 @@ public class PetRepository {
             if (pet == null) return;
 
             int newLevel = 1;
-            if (pet.levelPoints >= 200) {
+            if (pet.levelPoints >= 700) {
+                newLevel = 4;
+            } else if (pet.levelPoints >= 300) {
                 newLevel = 3;
-            } else if (pet.levelPoints >= 100) {
+            } else if (pet.levelPoints >= 150) {
                 newLevel = 2;
             } else {
                 newLevel = 1;
@@ -273,6 +275,15 @@ public class PetRepository {
 
     public void setActivePetId(long petId) {
         prefs.edit().putLong(ACTIVE_PET_KEY, petId).apply();
+    }
+
+    public void setActivePetByUserId(long userId) {
+        ioExecutor.execute(() -> {
+            PetEntity pet = getPetForUser(userId);
+            if (pet == null) { return; }
+            long petId = pet.petId;
+            setActivePetId(petId);
+        });
     }
 
     private void clearActivePetId() {

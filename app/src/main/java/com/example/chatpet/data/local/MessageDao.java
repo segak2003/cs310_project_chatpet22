@@ -28,16 +28,16 @@ public interface MessageDao {
     @Query("SELECT * FROM messages WHERE message_id = :messageId LIMIT 1")
     MessageEntity getById(long messageId);
 
-    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at DESC")
+    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at ASC")
     List<MessageEntity> getByPetId(long petId);
 
-    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at DESC")
+    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at ASC")
     LiveData<List<MessageEntity>> observeByPetId(long petId);
 
-    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at DESC LIMIT :limit")
+    @Query("SELECT * FROM messages WHERE pet_id = :petId ORDER BY created_at ASC LIMIT :limit")
     List<MessageEntity> getByPetIdLimited(long petId, int limit);
 
-    @Query("SELECT * FROM messages WHERE pet_id = :petId AND created_at BETWEEN :startMs AND :endMs ORDER BY created_at DESC")
+    @Query("SELECT * FROM messages WHERE pet_id = :petId AND created_at BETWEEN :startMs AND :endMs ORDER BY created_at ASC")
     List<MessageEntity> getByPetIdInRange(long petId, long startMs, long endMs);
 
     @Query("DELETE FROM messages WHERE pet_id = :petId")

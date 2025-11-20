@@ -4,18 +4,28 @@ import static com.example.chatpet.feature4.Pet.Type.CAT;
 import static com.example.chatpet.feature4.Pet.Type.DRAGON;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.chatpet.data.repository.PetRepository;
 import com.example.chatpet.feature4.PetGrowthActivity;
 import com.example.chatpet.feature4.PetInteractionController;
 
 public class ProfileActivity extends AppCompatActivity {
+    PetRepository petRepository;
+    SharedPreferences prefs;
+    private static final String PREFS_NAME = "chatpet_prefs";
+    private static final String ACTIVE_USER_KEY = "active_user_id";
+    private static final String ACTIVE_PET_KEY = "active_pet_id";
+
     EditText etPetName;
     TextView iconPetPreview;
     Button btnLeft, btnRight, btnNext;
@@ -35,8 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
         controller = new PetInteractionController(this);
 
 
-        etPetName = findViewById(R.id.etPetName);
+        petRepository = new PetRepository(this);
+        prefs = this.getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        etPetName = findViewById(R.id.etPetName);
         btnLeft = findViewById(R.id.btnLeft);
         btnRight = findViewById(R.id.btnRight);
         iconPetPreview = findViewById(R.id.iconPetPreview);
@@ -55,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         btnNext.setOnClickListener(v -> {
-          
+
             String petName = etPetName.getText().toString().trim();
             String selectedPet = petTypes[currentPetIndex];
 
@@ -65,6 +77,17 @@ public class ProfileActivity extends AppCompatActivity {
                 etPetName.requestFocus();
                 return;
             }
+
+            long activeUserId = prefs.getLong(ACTIVE_USER_KEY, -1L);
+            if (activeUserId == -1L) {
+                Toast.makeText(this, "No active user", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            petRepository.createPetForUser(activeUserId, petName, selectedPet, (petId) -> {
+                petRepository.setActivePetId(petId);
+            });
+
             controller.getPet().name = etPetName.getText().toString().trim();
             if (selectedPet.equals("CAT")) {
                 controller.getPet().type = CAT;
@@ -73,7 +96,6 @@ public class ProfileActivity extends AppCompatActivity {
                 controller.getPet().type = DRAGON;
             }
             String message = "Welcome !\nYour pet " + petName + " the " + selectedPet + " is ready!";
-
 
             new AlertDialog.Builder(this)
                     .setTitle("Profile Created 🎉")

@@ -2,8 +2,10 @@ package com.example.chatpet;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,11 +19,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.Observer;
+
 
 //import com.example.a310_project_chatpet22.R;
 
 //import com.example.chatpet.R;
 
+import com.example.chatpet.data.local.MessageEntity;
+import com.example.chatpet.data.repository.MessageRepository;
 import com.example.chatpet.feature4.Pet;
 import com.example.chatpet.feature4.PetGrowthActivity;
 import com.example.chatpet.feature4.PetInteractionController;
@@ -34,8 +40,12 @@ public class ChatPage extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EditText editTextMessage;
     private ImageButton buttonSend;
+
     private MessageAdapter adapter;
-    private List<Message> messageList;
+    private final List<MessageEntity> messages = new ArrayList<>();
+
+    private MessageRepository messageRepository;
+    private long activePetId;
 
     private PetInteractionController controller;
 
@@ -63,25 +73,57 @@ public class ChatPage extends AppCompatActivity {
 
         controller = new PetInteractionController(this);
 
-
+        messageRepository = new MessageRepository(this);
+        SharedPreferences prefs = getSharedPreferences("chatpet_prefs", Context.MODE_PRIVATE);
+        activePetId = prefs.getLong("active_pet_id", -1L);
 
         recyclerView = findViewById(R.id.recyclerViewMessages);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
         ImageButton btnBack = findViewById(R.id.buttonBack);
 
-        messageList = new ArrayList<>();
-        adapter = new MessageAdapter(messageList);
+        adapter = new MessageAdapter(messages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        if (activePetId > 0) {
+            messageRepository.observeMessagesForPet(activePetId)
+                    .observe(this, new Observer<List<MessageEntity>>() {
+                        @Override
+                        public void onChanged(List<MessageEntity> newMessages) {
+                            messages.clear();
+                            if (newMessages != null) {
+                                messages.addAll(newMessages);
+                            }
+                            adapter.notifyDataSetChanged();
+                            if (!messages.isEmpty()) {
+                                recyclerView.scrollToPosition(messages.size() - 1);
+                            }
+                        }
+                    });
+        }
+
         buttonSend.setOnClickListener(v -> {
-            String msg = editTextMessage.getText().toString().trim();
-            if (!msg.isEmpty()) {
-                addMessage(msg, true);
-                getBotResponse(msg);
-                editTextMessage.setText("");
+            Log.i("ChatPage", "Send Clicked!");
+            String userText = editTextMessage.getText().toString().trim();
+            if (userText.isEmpty() || activePetId <= 0) {
+                return;
             }
+
+            editTextMessage.setText("");
+
+            // Insert user message into DB on a background thread
+            new Thread(() -> {
+                messageRepository.sendUserMessage(activePetId, userText);
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+
+                }
+                String botResponse = getBotResponse(userText);
+                messageRepository.savePetReply(activePetId, botResponse);
+            }).start();
         });
 
         btnBack.setOnClickListener(v -> {
@@ -93,26 +135,24 @@ public class ChatPage extends AppCompatActivity {
         });
     }
 
-    private void addMessage(String text, boolean isUser) {
-        messageList.add(new Message(text, isUser));
-        adapter.notifyItemInserted(messageList.size() - 1);
-        recyclerView.scrollToPosition(messageList.size() - 1);
-    }
-
     // For now, fake a bot reply (you can replace this with API call later)
-    private void getBotResponse(String userMessage) {
+    String getBotResponse(String userMessage) {
         String lowerUserMessage = userMessage.toLowerCase();
         String botReply = "";
+
+        if(lowerUserMessage.isEmpty()){
+            return "What do you mean?";
+        }
 
         if(controller.getPet().type == Pet.Type.CAT){
             if(lowerUserMessage.contains("hi") ||lowerUserMessage.contains("hello") ){
                 botReply += "Hewwo to you too! ";
             }
-            if(lowerUserMessage.contains("love you")){
-                botReply += "I wuv you more! ";
-            }
             if(lowerUserMessage.contains("how are you")){
                 botReply += "I'm doing much better now that I'm talking to you :) ";
+            }
+            if(lowerUserMessage.contains("love")){
+                botReply += "I wuv you more! ";
             }
             if(lowerUserMessage.contains("what do")){
                 botReply += "Can we go on a walk later pweaseeeeee!!!";
@@ -139,7 +179,7 @@ public class ChatPage extends AppCompatActivity {
             }
         }
 
-        addMessage(botReply, false);
+        return botReply;
     }
 
     @Override
@@ -167,5 +207,19 @@ public class ChatPage extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
+
+    // ChatPage.java
+    void setPetForTesting(Pet pet, Context context) {
+        this.controller = new MockController(pet, context);
+    }
+
+    private static class MockController extends PetInteractionController {
+        private final Pet pet;
+        MockController(Pet pet, Context context) {
+            super(context); // Pass a valid context
+            this.pet = pet;
+        }
+        @Override public Pet getPet() { return pet; }
+    }
 
 }

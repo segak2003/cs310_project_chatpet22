@@ -7,11 +7,13 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.chatpet.data.repository.PetRepository;
 import com.example.chatpet.data.repository.UserRepository;
 import com.example.chatpet.feature4.PetGrowthActivity;
 
 public class LoginActivity extends AppCompatActivity {
     UserRepository userRepository;
+    PetRepository petRepository;
     EditText etUsername, etPassword;
     Button btnLogin;
 
@@ -25,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
 
         userRepository = new UserRepository(this);
+        petRepository = new PetRepository(this);
 
         btnLogin.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
@@ -54,8 +57,11 @@ public class LoginActivity extends AppCompatActivity {
                             etPassword.setError("Incorrect password");
                             etPassword.requestFocus();
                         } else {
-                            // Login successful
-                            userRepository.setActiveUser(username);
+
+                            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                            userRepository.setActiveUser(username, (userId) -> {
+                                petRepository.setActivePetByUserId(userId);
+                            });
                             Intent intent = new Intent(this, PetGrowthActivity.class);
                             intent.putExtra("USERNAME", username);
                             startActivity(intent);
