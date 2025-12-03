@@ -1,4 +1,4 @@
-package com.example.chatpet.feature4;
+package com.example.chatpet;
 
 import android.content.Intent;
 import android.os.Bundle;

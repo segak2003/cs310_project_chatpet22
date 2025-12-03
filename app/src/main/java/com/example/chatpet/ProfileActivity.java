@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.data.repository.PetRepository;
-import com.example.chatpet.feature4.PetGrowthActivity;
 import com.example.chatpet.PetInteractionController;
 
 public class ProfileActivity extends AppCompatActivity {

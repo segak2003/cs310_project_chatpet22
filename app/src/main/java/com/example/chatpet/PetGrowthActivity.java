@@ -26,7 +26,7 @@ public class PetGrowthActivity extends AppCompatActivity {
 
 
     // main action buttons
-    private Button btnChat, btnFeed, btnTuck, btnJournal;
+    private Button btnChat, btnFeed, btnTuck, btnJournal, btnSettings;
 
 
     // layouts
@@ -94,6 +94,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         btnFeed = findViewById(R.id.btnFeed);
         btnTuck = findViewById(R.id.btnTuck);
         btnJournal = findViewById(R.id.btnJournal);
+        btnSettings = findViewById(R.id.btnSettings);
 
 
         // food buttons
@@ -124,6 +125,11 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // Feed: show food choices row, hide main buttons & journal
         btnFeed.setOnClickListener(v -> {
+            if (controller.getPet().hunger >= 100) {
+                Toast.makeText(this, "Your pet is already full!", Toast.LENGTH_SHORT).show();
+                tvReply.setText("I'm stuffed... I can't eat anymore!");
+                return;
+            }
             layoutMainButtons.setVisibility(View.GONE);
             btnJournal.setVisibility(View.GONE);
             layoutFeedChoices.setVisibility(View.VISIBLE);
@@ -159,6 +165,11 @@ public class PetGrowthActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(PetGrowthActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
 
         // reset button listener
         btnReset.setEnabled(false);
@@ -183,13 +194,6 @@ public class PetGrowthActivity extends AppCompatActivity {
 
 
         // Guardrails based on meters
-        if (type == PointManager.InteractionType.FEED && current.hunger >= 100) {
-            Toast.makeText(this, "Your pet is already full!", Toast.LENGTH_SHORT).show();
-            tvReply.setText("I'm stuffed... I can't eat anymore!");
-            return;
-        }
-
-
         if (type == PointManager.InteractionType.TUCK && current.energy >= 100) {
             Toast.makeText(this, "Your pet is fully rested!", Toast.LENGTH_SHORT).show();
             tvReply.setText("I'm already fully rested! ⚡");
@@ -204,6 +208,10 @@ public class PetGrowthActivity extends AppCompatActivity {
             return;
         }
 
+        if (type == PointManager.InteractionType.TUCK) {
+            startSleepPause();
+        }
+
 
         PointsDelta d;
         if (type == PointManager.InteractionType.CHAT) {
@@ -215,8 +223,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         }
 
 
-        if (type == PointManager.InteractionType.CHAT ||
-                type == PointManager.InteractionType.TUCK) {
+        if (type == PointManager.InteractionType.CHAT) {
             tvReply.setText(controller.replyFor(type));
         }
 
@@ -234,9 +241,6 @@ public class PetGrowthActivity extends AppCompatActivity {
         refreshUI();
 
 
-        if (type == PointManager.InteractionType.TUCK) {
-            startSleepPause();
-        }
     }
 
 
