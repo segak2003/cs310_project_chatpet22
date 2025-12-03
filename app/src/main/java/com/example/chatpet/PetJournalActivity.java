@@ -357,4 +357,5 @@ public class PetJournalActivity extends AppCompatActivity {
             dbExecutor.shutdown(); // Always clean up resources!
         }
     }
+
 }
