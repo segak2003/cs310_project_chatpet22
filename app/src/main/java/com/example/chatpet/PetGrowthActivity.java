@@ -87,7 +87,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         // layouts
         layoutMainButtons = findViewById(R.id.layoutMainButtons);
         layoutFeedChoices = findViewById(R.id.layoutFeedChoices);
-
+        layoutFeedChoices.setVisibility(View.GONE);
 
         // main buttons
         btnChat = findViewById(R.id.btnChat);
@@ -112,9 +112,15 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // Chat: apply interaction + open ChatPage
         btnChat.setOnClickListener(v -> {
-            handleInteraction(PointManager.InteractionType.CHAT);
-            Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
-            startActivity(intent);
+            // Can't chat if energy is too low
+            if (controller.getPet().energy <= 5) {
+                Toast.makeText(this, "Too tired to chat!", Toast.LENGTH_SHORT).show();
+                tvReply.setText("I'm too tired to talk... zZz");
+            } else {
+                handleInteraction(PointManager.InteractionType.CHAT);
+                Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
+                startActivity(intent);
+            }
         });
 
 
@@ -200,13 +206,6 @@ public class PetGrowthActivity extends AppCompatActivity {
             return;
         }
 
-
-        // Can't chat if energy is too low
-        if (type == PointManager.InteractionType.CHAT && current.energy <= 5) {
-            Toast.makeText(this, "Too tired to chat!", Toast.LENGTH_SHORT).show();
-            tvReply.setText("I'm too tired to talk... zZz");
-            return;
-        }
 
         if (type == PointManager.InteractionType.TUCK) {
             startSleepPause();
@@ -311,13 +310,13 @@ public class PetGrowthActivity extends AppCompatActivity {
             public void run() {
                 decreasePoints(controller.getPet());
                 // Schedule again after 2 minutes
-                barsHandler.postDelayed(this, 60_000);
+                barsHandler.postDelayed(this, 6_000);
             }
         };
 
 
-        // Run once immediately, then every 2 minutes
-        barsHandler.post(barsRunnable);
+        // Run once after 12 seconds, then every 6 seconds
+        barsHandler.postDelayed(barsRunnable, 12_000);
     }
 
 
