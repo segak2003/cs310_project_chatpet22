@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import com.example.chatpet.MainActivity;
 import com.example.chatpet.ProfileActivity;
 import com.example.chatpet.R;
 import com.example.chatpet.data.local.UserEntity;
@@ -28,14 +29,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     EditText etFullName, etEmail, etPassword, etConfirmPassword;
     DatePicker dpBirthday;
-    Button btnSave;
+    Button btnHome, btnLogout, btnSave;
 
-    // Avatar radio groups
     RadioGroup rgFemales, rgMales;
     RadioButton rbFemaleYellow, rbFemaleWhite, rbFemaleBrown;
     RadioButton rbMaleYellow, rbMaleWhite, rbMaleBrown;
 
-    // Avatar IDs
     public static final int AVATAR_FEMALE_YELLOW = 0;
     public static final int AVATAR_FEMALE_WHITE = 1;
     public static final int AVATAR_FEMALE_BROWN = 2;
@@ -50,15 +49,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         userRepository = new UserRepository(this);
 
-        // UI references
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         dpBirthday = findViewById(R.id.dpBirthday);
+        btnHome = findViewById(R.id.btnHome);
+        btnLogout = findViewById(R.id.btnLogout);
         btnSave = findViewById(R.id.btnSave);
 
-        // Avatar radio buttons
         rgFemales = findViewById(R.id.rgFemales);
         rgMales = findViewById(R.id.rgMales);
 
@@ -70,7 +69,6 @@ public class SettingsActivity extends AppCompatActivity {
         rbMaleWhite = findViewById(R.id.rbMaleWhite);
         rbMaleBrown = findViewById(R.id.rbMaleBrown);
 
-        // Load active user
         userRepository.observeActiveUser().observe(this, new Observer<UserEntity>() {
             @Override
             public void onChanged(UserEntity user) {
@@ -78,11 +76,9 @@ public class SettingsActivity extends AppCompatActivity {
 
                 activeUser = user;
 
-                // Fill fields
                 etFullName.setText(user.name);
-                etEmail.setText(user.username);  // username = email
+                etEmail.setText(user.username);
 
-                // Birthday
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(user.birthday);
                 dpBirthday.updateDate(
@@ -91,13 +87,25 @@ public class SettingsActivity extends AppCompatActivity {
                         cal.get(Calendar.DAY_OF_MONTH)
                 );
 
-                // Avatar
                 highlightAvatar(user.avatar);
             }
         });
 
-        // Save Updates
         btnSave.setOnClickListener(v -> saveChanges());
+
+        // HOME BUTTON
+        btnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        // LOGOUT BUTTON — UPDATED (no repository call)
+        btnLogout.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
     }
 
     private void highlightAvatar(int avatarId) {
@@ -119,7 +127,6 @@ public class SettingsActivity extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
         String confirm = etConfirmPassword.getText().toString().trim();
 
-        // VALIDATION
         if (fullName.isEmpty()) {
             etFullName.setError("Required");
             return;
@@ -130,7 +137,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         boolean changingPassword = !password.isEmpty();
-
         if (changingPassword) {
             if (password.length() < 6) {
                 etPassword.setError("At least 6 characters");
@@ -142,7 +148,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        // AVATAR SELECTED
         int avatarId = -1;
 
         if (rbFemaleYellow.isChecked()) avatarId = AVATAR_FEMALE_YELLOW;
@@ -158,7 +163,6 @@ public class SettingsActivity extends AppCompatActivity {
             return;
         }
 
-        // BIRTHDAY
         int day = dpBirthday.getDayOfMonth();
         int month = dpBirthday.getMonth();
         int year = dpBirthday.getYear();
@@ -167,7 +171,6 @@ public class SettingsActivity extends AppCompatActivity {
         cal.set(year, month, day);
         Date birthday = cal.getTime();
 
-        // Build updated user object
         UserEntity updated = new UserEntity(
                 email,
                 changingPassword ? password : activeUser.password,
@@ -177,15 +180,12 @@ public class SettingsActivity extends AppCompatActivity {
                 activeUser.createdAt
         );
 
-        // Keep the same primary key
         updated.userId = activeUser.userId;
 
-        // Save to DB
         userRepository.updateUserProfile(updated);
 
         Toast.makeText(this, "Profile updated!", Toast.LENGTH_SHORT).show();
 
-        // --- Go to PetGrowthActivity ---
         Intent intent = new Intent(this, PetGrowthActivity.class);
         startActivity(intent);
     }
