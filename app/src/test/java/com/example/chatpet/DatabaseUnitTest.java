@@ -66,7 +66,8 @@ public class DatabaseUnitTest {
         UserEntity user = new UserEntity(
                 "ryan",
                 "password123",
-                "Ryan Bohn",
+                "Ryan B",
+                "ryanb@email.com",
                 birthday,
                 /* avatarResId = */ 1,
                 createdAt
@@ -80,7 +81,8 @@ public class DatabaseUnitTest {
         assertNotEquals(0, userId);
         assertNotNull(loaded);
         assertEquals("ryan", loaded.username);
-        assertEquals("Ryan Bohn", loaded.name);
+        assertEquals("Ryan B", loaded.name);
+        assertEquals("ryanb@email.com", loaded.email);
         assertEquals(birthday, loaded.birthday);
     }
 
@@ -94,6 +96,7 @@ public class DatabaseUnitTest {
                 "duplicateUser",
                 "pass1",
                 "First User",
+                "first@email.com",
                 birthday,
                 1,
                 createdAt
@@ -103,6 +106,7 @@ public class DatabaseUnitTest {
                 "duplicateUser",
                 "pass2",
                 "Second User",
+                "second@email.com",
                 birthday,
                 2,
                 createdAt + 1000

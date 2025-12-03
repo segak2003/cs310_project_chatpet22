@@ -154,7 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
             Date birthday = cal.getTime();
 
 
-            userRepository.createUser(username, password, fullName, birthday, selectedAvatarId, (userId) -> {
+            userRepository.createUser(username, password, fullName, email, birthday, selectedAvatarId, (userId) -> {
                 userRepository.setActiveUserId(userId);
             });
 

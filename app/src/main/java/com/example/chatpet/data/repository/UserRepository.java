@@ -38,10 +38,10 @@ public class UserRepository {
     }
 
     /** Create a new user account. */
-    public void createUser(String username, String password, String name, Date birthday, int avatar, Callback<Long> callback) {
+    public void createUser(String username, String password, String name, String email, Date birthday, int avatar, Callback<Long> callback) {
         ioExecutor.execute(() -> {
             long createdAt = System.currentTimeMillis();
-            UserEntity user = new UserEntity(username, password, name, birthday, avatar, createdAt);
+            UserEntity user = new UserEntity(username, password, name, email, birthday, avatar, createdAt);
             long  userId = userDao.insert(user);
 
             new Handler(Looper.getMainLooper()).post(() -> {
