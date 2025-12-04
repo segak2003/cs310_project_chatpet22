@@ -98,6 +98,7 @@ public class PetJournalActivityBlackBoxTest {
                     }
                     
                     currentText = activity.getCurrentEntryText();
+//                    currentText = "";
                     if (currentText != null && currentText.contains("Welcome to your pet journal")) {
                         hasWelcomeMessage = true;
                         break;

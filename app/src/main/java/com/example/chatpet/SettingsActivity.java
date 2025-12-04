@@ -1,4 +1,4 @@
-package com.example.chatpet.feature4;
+package com.example.chatpet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import com.example.chatpet.MainActivity;
 import com.example.chatpet.ProfileActivity;
 import com.example.chatpet.R;
 import com.example.chatpet.data.local.UserEntity;
@@ -28,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     EditText etFullName, etEmail, etPassword, etConfirmPassword;
     DatePicker dpBirthday;
-    Button btnSave;
+    Button btnHome, btnLogout, btnSave;
 
     // Avatar radio groups
     RadioGroup rgFemales, rgMales;
@@ -56,6 +57,8 @@ public class SettingsActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         dpBirthday = findViewById(R.id.dpBirthday);
+        btnHome = findViewById(R.id.btnHome);
+        btnLogout = findViewById(R.id.btnLogout);
         btnSave = findViewById(R.id.btnSave);
 
         // Avatar radio buttons
@@ -80,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 // Fill fields
                 etFullName.setText(user.name);
-                etEmail.setText(user.username);  // username = email
+                etEmail.setText(user.email);
 
                 // Birthday
                 Calendar cal = Calendar.getInstance();
@@ -98,6 +101,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Save Updates
         btnSave.setOnClickListener(v -> saveChanges());
+
+        // HOME BUTTON
+        btnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PetGrowthActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        // LOGOUT BUTTON — UPDATED (no repository call)
+        btnLogout.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
     }
 
     private void highlightAvatar(int avatarId) {
@@ -114,6 +131,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void saveChanges() {
         if (activeUser == null) return;
 
+        String username = activeUser.username;
         String fullName = etFullName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -169,9 +187,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Build updated user object
         UserEntity updated = new UserEntity(
-                email,
+                username,
                 changingPassword ? password : activeUser.password,
                 fullName,
+                email,
                 birthday,
                 avatarId,
                 activeUser.createdAt

@@ -1,6 +1,8 @@
-package com.example.chatpet.feature4;
+package com.example.chatpet;
+
 
 import java.io.Serializable;
+
 
 public class Pet implements Serializable {
     public Pet(){
@@ -15,20 +17,25 @@ public class Pet implements Serializable {
     public enum Stage { BABY, TEEN, ADULT, ELDER }
     public enum Type { CAT, DRAGON, NONE }
 
+
     public String id = "default";
     public Type type = Type.NONE;
     public String name = "";
+
 
     // meters: 0..100
     public int hunger = 50;
     public int happiness = 50;
     public int energy = 50;
 
+
     public int points = 0;
     public int level = 1;
     public Stage stage = Stage.BABY;
 
+
     public long lastUpdatedMs = System.currentTimeMillis();
+
 
     public String spriteEmoji() {
         // Simple “graphics” using emoji per stage
@@ -55,6 +62,5 @@ public class Pet implements Serializable {
         }
         return "❌";
     }
-
 
 }

@@ -119,6 +119,7 @@ public class PetJournalActivity extends AppCompatActivity {
                 "GuestUser",                 // username
                 "default_password",          // password (not used for this default)
                 "Guest Jones",
+                "example@email.com",
                 new Date(System.currentTimeMillis()),
                 0,
                 System.currentTimeMillis()   // createdAt
@@ -394,6 +395,7 @@ public class PetJournalActivity extends AppCompatActivity {
 
     // Internal 5-parameter version with level and type
     private String generateTitleBasedOnStats(int hunger, int happiness, int energy, int level, String petType) {
+
         // Generate title based on overall state
         int avgStat = (hunger + happiness + energy) / 3;
         
@@ -495,4 +497,20 @@ public class PetJournalActivity extends AppCompatActivity {
             dbExecutor.shutdown(); // Always clean up resources!
         }
     }
+
+    public long getPetId() {
+        return PET_ID;
+    }
+
+    public void refreshJournal() {
+        generateNewJournalEntry();
+    }
+
+    public String getCurrentEntryText() {
+        if (currentEntryDisplay != null) {
+            return currentEntryDisplay.getText().toString();
+        }
+        return "";
+    }
+
 }

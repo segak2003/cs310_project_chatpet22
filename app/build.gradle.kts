@@ -29,9 +29,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
+    
 
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -43,7 +50,7 @@ dependencies {
     testImplementation(libs.junit)
 
     testImplementation(libs.ext.junit)
-    testImplementation("org.robolectric:robolectric:4.11.1")
+//    testImplementation("org.robolectric:robolectric:4.11.1")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
@@ -55,7 +62,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     // JUnit for unit tests
-    testImplementation("junit:junit:4.13.2")
+//    testImplementation("junit:junit:4.13.2")
 // Robolectric for Android unit testing without device/emulator
     testImplementation("org.robolectric:robolectric:4.10.3")
+
 }

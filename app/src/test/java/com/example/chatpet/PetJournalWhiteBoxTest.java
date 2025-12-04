@@ -13,8 +13,8 @@ import java.lang.reflect.Field;
 import java.util.Random;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = 28, 
-        manifest = "../app/src/main/AndroidManifest.xml",
+@Config(sdk = 28,
+        manifest = Config.NONE,
         qualifiers = "en-rUS")
 public class PetJournalWhiteBoxTest {
 

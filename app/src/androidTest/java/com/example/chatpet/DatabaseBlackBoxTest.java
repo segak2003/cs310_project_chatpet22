@@ -48,13 +48,14 @@ public class DatabaseBlackBoxTest {
         String username = "testuser_repo";
         String password = "password123";
         String name = "Test User";
+        String email = "example@email.com";
         Date birthday = new Date(100, 0, 1); // Jan 1 2000
         int avatar = 1;
 
         CountDownLatch createLatch = new CountDownLatch(1);
         final long[] createdId = new long[1];
 
-        userRepo.createUser(username, password, name, birthday, avatar, userId -> {
+        userRepo.createUser(username, password, name, email, birthday, avatar, userId -> {
             createdId[0] = userId;
             createLatch.countDown();
         });
@@ -97,7 +98,7 @@ public class DatabaseBlackBoxTest {
         String wrongPassword = "wrong_pw";
 
         CountDownLatch createLatch = new CountDownLatch(1);
-        userRepo.createUser(username, correctPassword, "Login User", new Date(), 1, id -> {
+        userRepo.createUser(username, correctPassword, "Login User", "a@b.com", new Date(), 1, id -> {
             createLatch.countDown();
         });
         assertTrue("createUser callback not called",
@@ -137,7 +138,7 @@ public class DatabaseBlackBoxTest {
         CountDownLatch userLatch = new CountDownLatch(1);
         final long[] userIdHolder = new long[1];
 
-        userRepo.createUser("pet_owner", "pw", "Owner", new Date(), 1, id -> {
+        userRepo.createUser("pet_owner", "pw", "Owner", "a@b.com", new Date(), 1, id -> {
             userIdHolder[0] = id;
             userLatch.countDown();
         });
@@ -186,7 +187,7 @@ public class DatabaseBlackBoxTest {
         CountDownLatch userLatch = new CountDownLatch(1);
         final long[] userIdHolder = new long[1];
 
-        userRepo.createUser("msg_user", "pw", "Msg User", new Date(), 1, id -> {
+        userRepo.createUser("msg_user", "pw", "Msg User", "a@b.com", new Date(), 1, id -> {
             userIdHolder[0] = id;
             userLatch.countDown();
         });
@@ -226,7 +227,7 @@ public class DatabaseBlackBoxTest {
         CountDownLatch userLatch = new CountDownLatch(1);
         final long[] userIdHolder = new long[1];
 
-        userRepo.createUser("journal_user", "pw", "Journal User", new Date(), 1, id -> {
+        userRepo.createUser("journal_user", "pw", "Journal User", "a@b.com", new Date(), 1, id -> {
             userIdHolder[0] = id;
             userLatch.countDown();
         });
