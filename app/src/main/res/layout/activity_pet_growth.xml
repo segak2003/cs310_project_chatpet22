@@ -163,7 +163,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:paddingTop="16dp">
+            android:paddingTop="16dp"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/btnFoodKibble"

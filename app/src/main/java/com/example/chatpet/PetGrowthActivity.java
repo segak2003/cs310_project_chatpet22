@@ -31,6 +31,7 @@ public class PetGrowthActivity extends AppCompatActivity {
 
     // layouts
     private LinearLayout layoutMainButtons;
+    private LinearLayout layoutMainButtonsTwo;
     private LinearLayout layoutFeedChoices;
 
 
@@ -86,6 +87,7 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // layouts
         layoutMainButtons = findViewById(R.id.layoutMainButtons);
+        layoutMainButtonsTwo = findViewById(R.id.layoutMainButtonsTwo);
         layoutFeedChoices = findViewById(R.id.layoutFeedChoices);
         layoutFeedChoices.setVisibility(View.GONE);
 
@@ -128,6 +130,10 @@ public class PetGrowthActivity extends AppCompatActivity {
         btnTuck.setOnClickListener(v ->
                 handleInteraction(PointManager.InteractionType.TUCK));
 
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(com.example.chatpet.PetGrowthActivity.this, com.example.chatpet.SettingsActivity.class);
+            startActivity(intent);
+        });
 
         // Feed: show food choices row, hide main buttons & journal
         btnFeed.setOnClickListener(v -> {
@@ -137,6 +143,7 @@ public class PetGrowthActivity extends AppCompatActivity {
                 return;
             }
             layoutMainButtons.setVisibility(View.GONE);
+            layoutMainButtonsTwo.setVisibility(View.GONE);
             btnJournal.setVisibility(View.GONE);
             layoutFeedChoices.setVisibility(View.VISIBLE);
             tvReply.setText("What should I eat? 😋");
@@ -298,6 +305,7 @@ public class PetGrowthActivity extends AppCompatActivity {
 
     private void restoreMainButtons() {
         layoutMainButtons.setVisibility(View.VISIBLE);
+        layoutMainButtonsTwo.setVisibility(View.VISIBLE);
         layoutFeedChoices.setVisibility(View.GONE);
         btnJournal.setVisibility(View.VISIBLE);
     }
