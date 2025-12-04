@@ -94,7 +94,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         layoutFeedChoices.setVisibility(View.VISIBLE);
 
         // reset button (dev only)
-        btnReset = findViewById(R.id.btnReset);
+//        btnReset = findViewById(R.id.btnReset);
 
         // --- listeners ---
 
@@ -143,8 +143,8 @@ public class PetGrowthActivity extends AppCompatActivity {
         });
 
         // reset button disabled in production
-        btnReset.setEnabled(false);
-        btnReset.setAlpha(0.4f);
+//        btnReset.setEnabled(false);
+//        btnReset.setAlpha(0.4f);
 
         // apply offline decay since last session
         controller.applyTimeDecay();
