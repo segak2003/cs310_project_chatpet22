@@ -112,49 +112,24 @@
                 android:text="Chat 💬" />
 
             <Button
-                android:id="@+id/btnFeed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Feed 🍕"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutMainButtonsTwo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingTop="16dp">
-
-            <Button
                 android:id="@+id/btnTuck"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tuck 😴" />
+                android:text="Tuck 😴"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"/>
 
             <Button
-                android:id="@+id/btnSettings"
+                android:id="@+id/btnJournal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Settings ⚙️"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:text="Journal 📓"
                 />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnJournal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Journal 📓"
-            android:layout_marginTop="8dp" />
 
         <!-- feed options -->
         <LinearLayout
@@ -203,6 +178,14 @@
         <!-- ❌ RESET BUTTON -->
         <!-- I only use it for testing while developing
             will remove for implementation 2.5 -->
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Settings ⚙️"
+            />
+
         <Button
             android:id="@+id/btnReset"
             android:layout_width="wrap_content"

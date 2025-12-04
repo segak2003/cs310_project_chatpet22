@@ -2,7 +2,7 @@ package com.example.chatpet;
 
 import android.content.Context;
 
-public class PetInteractionController {
+public class   PetInteractionController {
     private final PetRepository repo;
     private Pet pet;
 
