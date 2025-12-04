@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 // Fill fields
                 etFullName.setText(user.name);
-                etEmail.setText(user.username);  // username = email
+                etEmail.setText(user.email);
 
                 // Birthday
                 Calendar cal = Calendar.getInstance();
@@ -131,6 +131,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void saveChanges() {
         if (activeUser == null) return;
 
+        String username = activeUser.username;
         String fullName = etFullName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -186,9 +187,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Build updated user object
         UserEntity updated = new UserEntity(
-                email,
+                username,
                 changingPassword ? password : activeUser.password,
                 fullName,
+                email,
                 birthday,
                 avatarId,
                 activeUser.createdAt

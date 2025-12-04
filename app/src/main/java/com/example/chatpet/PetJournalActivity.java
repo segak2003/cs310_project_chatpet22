@@ -119,6 +119,7 @@ public class PetJournalActivity extends AppCompatActivity {
                 "GuestUser",                 // username
                 "default_password",          // password (not used for this default)
                 "Guest Jones",
+                "example@email.com",
                 new Date(System.currentTimeMillis()),
                 0,
                 System.currentTimeMillis()   // createdAt

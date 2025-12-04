@@ -89,7 +89,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         layoutMainButtons = findViewById(R.id.layoutMainButtons);
         layoutMainButtonsTwo = findViewById(R.id.layoutMainButtonsTwo);
         layoutFeedChoices = findViewById(R.id.layoutFeedChoices);
-
+        layoutFeedChoices.setVisibility(View.GONE);
 
         // main buttons
         btnChat = findViewById(R.id.btnChat);
@@ -114,9 +114,15 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // Chat: apply interaction + open ChatPage
         btnChat.setOnClickListener(v -> {
-            handleInteraction(PointManager.InteractionType.CHAT);
-            Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
-            startActivity(intent);
+            // Can't chat if energy is too low
+            if (controller.getPet().energy <= 5) {
+                Toast.makeText(this, "Too tired to chat!", Toast.LENGTH_SHORT).show();
+                tvReply.setText("I'm too tired to talk... zZz");
+            } else {
+                handleInteraction(PointManager.InteractionType.CHAT);
+                Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
+                startActivity(intent);
+            }
         });
 
 
@@ -131,6 +137,11 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // Feed: show food choices row, hide main buttons & journal
         btnFeed.setOnClickListener(v -> {
+            if (controller.getPet().hunger >= 100) {
+                Toast.makeText(this, "Your pet is already full!", Toast.LENGTH_SHORT).show();
+                tvReply.setText("I'm stuffed... I can't eat anymore!");
+                return;
+            }
             layoutMainButtons.setVisibility(View.GONE);
             layoutMainButtonsTwo.setVisibility(View.GONE);
             btnJournal.setVisibility(View.GONE);
@@ -167,6 +178,11 @@ public class PetGrowthActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(PetGrowthActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
 
         // reset button listener
         btnReset.setEnabled(false);
@@ -191,13 +207,6 @@ public class PetGrowthActivity extends AppCompatActivity {
 
 
         // Guardrails based on meters
-        if (type == PointManager.InteractionType.FEED && current.hunger >= 100) {
-            Toast.makeText(this, "Your pet is already full!", Toast.LENGTH_SHORT).show();
-            tvReply.setText("I'm stuffed... I can't eat anymore!");
-            return;
-        }
-
-
         if (type == PointManager.InteractionType.TUCK && current.energy >= 100) {
             Toast.makeText(this, "Your pet is fully rested!", Toast.LENGTH_SHORT).show();
             tvReply.setText("I'm already fully rested! ⚡");
@@ -205,11 +214,8 @@ public class PetGrowthActivity extends AppCompatActivity {
         }
 
 
-        // Can't chat if energy is too low
-        if (type == PointManager.InteractionType.CHAT && current.energy <= 5) {
-            Toast.makeText(this, "Too tired to chat!", Toast.LENGTH_SHORT).show();
-            tvReply.setText("I'm too tired to talk... zZz");
-            return;
+        if (type == PointManager.InteractionType.TUCK) {
+            startSleepPause();
         }
 
 
@@ -223,8 +229,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         }
 
 
-        if (type == PointManager.InteractionType.CHAT ||
-                type == PointManager.InteractionType.TUCK) {
+        if (type == PointManager.InteractionType.CHAT) {
             tvReply.setText(controller.replyFor(type));
         }
 
@@ -242,9 +247,6 @@ public class PetGrowthActivity extends AppCompatActivity {
         refreshUI();
 
 
-        if (type == PointManager.InteractionType.TUCK) {
-            startSleepPause();
-        }
     }
 
 
@@ -316,13 +318,13 @@ public class PetGrowthActivity extends AppCompatActivity {
             public void run() {
                 decreasePoints(controller.getPet());
                 // Schedule again after 2 minutes
-                barsHandler.postDelayed(this, 60_000);
+                barsHandler.postDelayed(this, 6_000);
             }
         };
 
 
-        // Run once immediately, then every 2 minutes
-        barsHandler.post(barsRunnable);
+        // Run once after 12 seconds, then every 6 seconds
+        barsHandler.postDelayed(barsRunnable, 12_000);
     }
 
 
