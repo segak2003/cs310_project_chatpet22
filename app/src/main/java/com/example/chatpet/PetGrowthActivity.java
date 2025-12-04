@@ -26,11 +26,12 @@ public class PetGrowthActivity extends AppCompatActivity {
 
 
     // main action buttons
-    private Button btnChat, btnFeed, btnTuck, btnJournal;
+    private Button btnChat, btnFeed, btnTuck, btnJournal, btnSettings;
 
 
     // layouts
     private LinearLayout layoutMainButtons;
+    private LinearLayout layoutMainButtonsTwo;
     private LinearLayout layoutFeedChoices;
 
 
@@ -86,6 +87,7 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // layouts
         layoutMainButtons = findViewById(R.id.layoutMainButtons);
+        layoutMainButtonsTwo = findViewById(R.id.layoutMainButtonsTwo);
         layoutFeedChoices = findViewById(R.id.layoutFeedChoices);
 
 
@@ -94,6 +96,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         btnFeed = findViewById(R.id.btnFeed);
         btnTuck = findViewById(R.id.btnTuck);
         btnJournal = findViewById(R.id.btnJournal);
+        btnSettings = findViewById(R.id.btnSettings);
 
 
         // food buttons
@@ -121,10 +124,15 @@ public class PetGrowthActivity extends AppCompatActivity {
         btnTuck.setOnClickListener(v ->
                 handleInteraction(PointManager.InteractionType.TUCK));
 
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(com.example.chatpet.PetGrowthActivity.this, com.example.chatpet.SettingsActivity.class);
+            startActivity(intent);
+        });
 
         // Feed: show food choices row, hide main buttons & journal
         btnFeed.setOnClickListener(v -> {
             layoutMainButtons.setVisibility(View.GONE);
+            layoutMainButtonsTwo.setVisibility(View.GONE);
             btnJournal.setVisibility(View.GONE);
             layoutFeedChoices.setVisibility(View.VISIBLE);
             tvReply.setText("What should I eat? 😋");
@@ -295,6 +303,7 @@ public class PetGrowthActivity extends AppCompatActivity {
 
     private void restoreMainButtons() {
         layoutMainButtons.setVisibility(View.VISIBLE);
+        layoutMainButtonsTwo.setVisibility(View.VISIBLE);
         layoutFeedChoices.setVisibility(View.GONE);
         btnJournal.setVisibility(View.VISIBLE);
     }

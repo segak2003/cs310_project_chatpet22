@@ -79,7 +79,7 @@ public class PetGrowthActivity extends AppCompatActivity {
         });
 
         btnSettings.setOnClickListener(v -> {
-            Intent intent = new Intent(PetGrowthActivity.this, com.example.chatpet.feature4.SettingsActivity.class);
+            Intent intent = new Intent(PetGrowthActivity.this, com.example.chatpet.SettingsActivity.class);
             startActivity(intent);
         });
 
