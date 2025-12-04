@@ -111,6 +111,7 @@
                 android:layout_weight="1"
                 android:text="Chat 💬" />
 
+            <!--
             <Button
                 android:id="@+id/btnFeed"
                 android:layout_width="0dp"
@@ -119,7 +120,7 @@
                 android:text="Feed 🍕"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"/>
-
+                -->
         </LinearLayout>
 
         <LinearLayout
