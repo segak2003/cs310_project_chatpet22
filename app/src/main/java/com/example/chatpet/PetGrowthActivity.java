@@ -20,10 +20,11 @@ public class PetGrowthActivity extends AppCompatActivity {
     private ProgressBar barHunger, barHappiness, barEnergy;
 
     // main action buttons (Feed removed from here)
-    private Button btnChat, btnTuck, btnJournal;
+    private Button btnChat, btnTuck, btnJournal, btnSettings;
 
     // layouts
     private LinearLayout layoutMainButtons;
+    private LinearLayout layoutMainButtonsTwo;
     private LinearLayout layoutFeedChoices;
 
     // food buttons
@@ -72,12 +73,17 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // layouts
         layoutMainButtons = findViewById(R.id.layoutMainButtons);
+        layoutMainButtonsTwo = findViewById(R.id.layoutMainButtonsTwo);
         layoutFeedChoices = findViewById(R.id.layoutFeedChoices);
 
         // main buttons (note: no btnFeed here anymore)
+        layoutFeedChoices.setVisibility(View.GONE);
+
+        // main buttons
         btnChat = findViewById(R.id.btnChat);
         btnTuck = findViewById(R.id.btnTuck);
         btnJournal = findViewById(R.id.btnJournal);
+        btnSettings = findViewById(R.id.btnSettings);
 
         // food buttons (always visible row)
         btnFoodKibble = findViewById(R.id.btnFoodKibble);
@@ -94,14 +100,26 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // Chat: apply interaction + open ChatPage
         btnChat.setOnClickListener(v -> {
-            handleInteraction(PointManager.InteractionType.CHAT);
-            Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
-            startActivity(intent);
+            // Can't chat if energy is too low
+            if (controller.getPet().energy <= 5) {
+                Toast.makeText(this, "Too tired to chat!", Toast.LENGTH_SHORT).show();
+                tvReply.setText("I'm too tired to talk... zZz");
+            } else {
+                handleInteraction(PointManager.InteractionType.CHAT);
+                Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
+                startActivity(intent);
+            }
         });
+
 
         // Tuck in
         btnTuck.setOnClickListener(v ->
                 handleInteraction(PointManager.InteractionType.TUCK));
+
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(com.example.chatpet.PetGrowthActivity.this, com.example.chatpet.SettingsActivity.class);
+            startActivity(intent);
+        });
 
         // Food selection interactions: directly feed
         btnFoodKibble.setOnClickListener(v ->
@@ -254,12 +272,13 @@ public class PetGrowthActivity extends AppCompatActivity {
             public void run() {
                 decreasePoints(controller.getPet());
                 // Schedule again after 2 minutes
-                barsHandler.postDelayed(this, 60_000);
+                barsHandler.postDelayed(this, 6_000);
             }
         };
 
-        // Run once immediately, then every 2 minutes
-        barsHandler.post(barsRunnable);
+
+        // Run once after 12 seconds, then every 6 seconds
+        barsHandler.postDelayed(barsRunnable, 12_000);
     }
 
     private void decreasePoints(Pet pet) {

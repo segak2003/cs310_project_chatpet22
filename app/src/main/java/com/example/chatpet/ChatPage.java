@@ -29,7 +29,6 @@ import androidx.lifecycle.Observer;
 import com.example.chatpet.data.local.MessageEntity;
 import com.example.chatpet.data.repository.MessageRepository;
 import com.example.chatpet.Pet;
-import com.example.chatpet.feature4.PetGrowthActivity;
 import com.example.chatpet.PetInteractionController;
 
 import java.util.ArrayList;

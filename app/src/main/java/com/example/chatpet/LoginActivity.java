@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.data.repository.PetRepository;
 import com.example.chatpet.data.repository.UserRepository;
-import com.example.chatpet.feature4.PetGrowthActivity;
 
 public class LoginActivity extends AppCompatActivity {
     UserRepository userRepository;

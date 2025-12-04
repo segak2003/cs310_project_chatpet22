@@ -29,6 +29,9 @@ public class UserEntity {
     public String name;
 
     @NonNull
+    public String email;
+
+    @NonNull
     public Date birthday;
 
     public int avatar;
@@ -38,10 +41,12 @@ public class UserEntity {
     public long createdAt; // epoch millis
 
     public UserEntity(@NonNull String username, @NonNull String password,
-                      @NonNull String name, @NonNull Date birthday, int avatar, long createdAt) {
+                      @NonNull String name, @NonNull String email,
+                      @NonNull Date birthday, int avatar, long createdAt) {
         this.username = username;
         this.password = password;
         this.name = name;
+        this.email = email;
         this.birthday = birthday;
         this.avatar = avatar;
         this.createdAt = createdAt;
