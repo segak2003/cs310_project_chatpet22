@@ -24,7 +24,6 @@ public class PetGrowthActivity extends AppCompatActivity {
 
     // layouts
     private LinearLayout layoutMainButtons;
-    private LinearLayout layoutMainButtonsTwo;
     private LinearLayout layoutFeedChoices;
 
     // food buttons
@@ -73,7 +72,6 @@ public class PetGrowthActivity extends AppCompatActivity {
 
         // layouts
         layoutMainButtons = findViewById(R.id.layoutMainButtons);
-        layoutMainButtonsTwo = findViewById(R.id.layoutMainButtonsTwo);
         layoutFeedChoices = findViewById(R.id.layoutFeedChoices);
 
         // main buttons (note: no btnFeed here anymore)
@@ -93,6 +91,8 @@ public class PetGrowthActivity extends AppCompatActivity {
         // set food labels based on pet type (cat vs dragon)
         setupFoodButtonsForPetType();
 
+        layoutFeedChoices.setVisibility(View.VISIBLE);
+
         // reset button (dev only)
         btnReset = findViewById(R.id.btnReset);
 
@@ -104,7 +104,12 @@ public class PetGrowthActivity extends AppCompatActivity {
             if (controller.getPet().energy <= 5) {
                 Toast.makeText(this, "Too tired to chat!", Toast.LENGTH_SHORT).show();
                 tvReply.setText("I'm too tired to talk... zZz");
-            } else {
+            }
+            else if (controller.getPet().happiness >= 100){
+                Toast.makeText(this, "Already maximum happiness!", Toast.LENGTH_SHORT).show();
+                tvReply.setText("I'm already sooo happy! Let's chat another time");
+            }
+            else{
                 handleInteraction(PointManager.InteractionType.CHAT);
                 Intent intent = new Intent(PetGrowthActivity.this, ChatPage.class);
                 startActivity(intent);
@@ -175,8 +180,15 @@ public class PetGrowthActivity extends AppCompatActivity {
             return;
         }
 
+        if (type == PointManager.InteractionType.CHAT && current.happiness >= 100) {
+            Toast.makeText(this, "Happiness already at max!", Toast.LENGTH_SHORT).show();
+            tvReply.setText("I'm already soooo happy! Let's chat another time.");
+            return;
+        }
+
         PointsDelta d;
-        if (type == PointManager.InteractionType.CHAT) {
+        if (type == PointManager.InteractionType.CHAT && current.happiness < 100) {
+
             d = controller.onChatCompleted();
         } else if (type == PointManager.InteractionType.FEED) {
             d = controller.onFeedCompleted();
