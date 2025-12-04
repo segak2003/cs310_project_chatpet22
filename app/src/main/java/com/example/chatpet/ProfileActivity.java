@@ -94,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
             else{
                 controller.getPet().type = DRAGON;
             }
-            String message = "Welcome !\nYour pet " + petName + " the " + selectedPet + " is ready!";
+            String message = "Welcome!\nYour pet " + petName + " the " + selectedPet + " is ready!";
 
             new AlertDialog.Builder(this)
                     .setTitle("Profile Created 🎉")
