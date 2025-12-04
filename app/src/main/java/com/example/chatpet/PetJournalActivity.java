@@ -498,19 +498,19 @@ public class PetJournalActivity extends AppCompatActivity {
         }
     }
 
-    public long getPetId() {
-        return PET_ID;
-    }
+//    public long getPetId() {
+//        return PET_ID;
+//    }
 
     public void refreshJournal() {
         generateNewJournalEntry();
     }
 
-    public String getCurrentEntryText() {
-        if (currentEntryDisplay != null) {
-            return currentEntryDisplay.getText().toString();
-        }
-        return "";
-    }
+//    public String getCurrentEntryText() {
+//        if (currentEntryDisplay != null) {
+//            return currentEntryDisplay.getText().toString();
+//        }
+//        return "";
+//    }
 
 }
