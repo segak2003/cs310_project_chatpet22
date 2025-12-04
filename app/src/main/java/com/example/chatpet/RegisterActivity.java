@@ -1,10 +1,10 @@
 package com.example.chatpet;
 
-import android.app.DatePickerDialog;
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -13,9 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import java.util.Calendar;
 
 import com.example.chatpet.data.repository.UserRepository;
 
@@ -23,12 +20,24 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
+
     UserRepository userRepository;
     EditText etFullName, etUsername, etEmail, etPassword, etConfirmPassword;
     DatePicker dpBirthday;
     Button btnRegister;
-    RadioGroup rgAvatar;
-    RadioButton rbFemale, rbMale;
+
+    // Avatar radio groups
+    RadioGroup rgFemales, rgMales;
+    RadioButton rbFemaleYellow, rbFemaleWhite, rbFemaleBrown;
+    RadioButton rbMaleYellow, rbMaleWhite, rbMaleBrown;
+
+    // Avatar ID constants
+    public static final int AVATAR_FEMALE_YELLOW = 0;
+    public static final int AVATAR_FEMALE_WHITE = 1;
+    public static final int AVATAR_FEMALE_BROWN = 2;
+    public static final int AVATAR_MALE_YELLOW = 3;
+    public static final int AVATAR_MALE_WHITE = 4;
+    public static final int AVATAR_MALE_BROWN = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +53,17 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
-        rgAvatar = findViewById(R.id.rgAvatar);
-        rbFemale = findViewById(R.id.rbFemale);
-        rbMale = findViewById(R.id.rbMale);
+
+        rgFemales = findViewById(R.id.rgFemales);
+        rgMales = findViewById(R.id.rgMales);
+
+        rbFemaleYellow = findViewById(R.id.rbFemaleYellow);
+        rbFemaleWhite = findViewById(R.id.rbFemaleWhite);
+        rbFemaleBrown = findViewById(R.id.rbFemaleBrown);
+
+        rbMaleYellow = findViewById(R.id.rbMaleYellow);
+        rbMaleWhite = findViewById(R.id.rbMaleWhite);
+        rbMaleBrown = findViewById(R.id.rbMaleBrown);
 
 
         btnRegister.setOnClickListener(v -> {
@@ -56,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
             String confirm = etConfirmPassword.getText().toString().trim();
 
+            // --- Basic validation ---
             if (fullName.isEmpty()) {
                 etFullName.setError("Full name is required");
                 etFullName.requestFocus();
@@ -68,14 +86,16 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            userRepository.isUsernameTaken(username, (taken) -> {
+            // Check if username is taken (async)
+            userRepository.isUsernameTaken(username, taken -> {
                 if (taken) {
                     etUsername.setError("Username is taken");
                     etUsername.requestFocus();
                 }
             });
+
             if (etUsername.getError() != null) {
-                return;
+                return; // Stop here if async check already marked an error
             }
 
             if (email.isEmpty()) {
@@ -108,31 +128,40 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            int selectedAvatarId = rgAvatar.getCheckedRadioButtonId();
+            // --- Avatar Selection ---
+            int selectedAvatarId = -1;
+
+            if (rbFemaleYellow.isChecked()) selectedAvatarId = AVATAR_FEMALE_YELLOW;
+            if (rbFemaleWhite.isChecked()) selectedAvatarId = AVATAR_FEMALE_WHITE;
+            if (rbFemaleBrown.isChecked()) selectedAvatarId = AVATAR_FEMALE_BROWN;
+
+            if (rbMaleYellow.isChecked()) selectedAvatarId = AVATAR_MALE_YELLOW;
+            if (rbMaleWhite.isChecked()) selectedAvatarId = AVATAR_MALE_WHITE;
+            if (rbMaleBrown.isChecked()) selectedAvatarId = AVATAR_MALE_BROWN;
+
             if (selectedAvatarId == -1) {
                 Toast.makeText(this, "Please select an avatar", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // --- Birthday ---
             int day = dpBirthday.getDayOfMonth();
             int month = dpBirthday.getMonth();
             int year = dpBirthday.getYear();
+
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.YEAR, year);
-            cal.set(Calendar.MONTH, month);
-            cal.set(Calendar.DAY_OF_MONTH, day);
+            cal.set(year, month, day);
             Date birthday = cal.getTime();
 
 
-            userRepository.createUser(username, password, fullName, birthday, selectedAvatarId, (userId) -> {
+            userRepository.createUser(username, password, fullName, email, birthday, selectedAvatarId, (userId) -> {
                 userRepository.setActiveUserId(userId);
             });
 
             Toast.makeText(this, "Registered successfully!", Toast.LENGTH_SHORT).show();
 
-
-            Intent intent = new Intent(this, com.example.chatpet.ProfileActivity.class);
-
+            // --- Go to profile ---
+            Intent intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("USERNAME", username);
             intent.putExtra("FULL_NAME", fullName);
             intent.putExtra("BIRTHDAY", birthday);

@@ -1,7 +1,7 @@
 package com.example.chatpet;
 
-import static com.example.chatpet.feature4.Pet.Type.CAT;
-import static com.example.chatpet.feature4.Pet.Type.DRAGON;
+import static com.example.chatpet.Pet.Type.CAT;
+import static com.example.chatpet.Pet.Type.DRAGON;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,8 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatpet.data.repository.PetRepository;
-import com.example.chatpet.feature4.PetGrowthActivity;
-import com.example.chatpet.feature4.PetInteractionController;
+import com.example.chatpet.PetInteractionController;
 
 public class ProfileActivity extends AppCompatActivity {
     PetRepository petRepository;
@@ -95,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
             else{
                 controller.getPet().type = DRAGON;
             }
-            String message = "Welcome !\nYour pet " + petName + " the " + selectedPet + " is ready!";
+            String message = "Welcome!\nYour pet " + petName + " the " + selectedPet + " is ready!";
 
             new AlertDialog.Builder(this)
                     .setTitle("Profile Created 🎉")

@@ -28,9 +28,8 @@ import androidx.lifecycle.Observer;
 
 import com.example.chatpet.data.local.MessageEntity;
 import com.example.chatpet.data.repository.MessageRepository;
-import com.example.chatpet.feature4.Pet;
-import com.example.chatpet.feature4.PetGrowthActivity;
-import com.example.chatpet.feature4.PetInteractionController;
+import com.example.chatpet.Pet;
+import com.example.chatpet.PetInteractionController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,47 +134,312 @@ public class ChatPage extends AppCompatActivity {
         });
     }
 
-    // For now, fake a bot reply (you can replace this with API call later)
     String getBotResponse(String userMessage) {
         String lowerUserMessage = userMessage.toLowerCase();
         String botReply = "";
 
-        if(lowerUserMessage.isEmpty()){
-            return "What do you mean?";
-        }
+        Pet p = controller.getPet();
+        Pet.Stage s = p.stage;
+        boolean contains = false;
+        if(p.type == Pet.Type.CAT){
+            if(s == Pet.Stage.BABY){
+                if(lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello") ){
+                    botReply += "Meow to you too! ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("how are you")){
+                    botReply += "I'm still learning about life cuz I'm a baby kitten but I'm doing better now that I'm talking to you! ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("love")){
+                    botReply += "I wuv you more! Meow Meow";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("what do you want to")){
+                    botReply += "I want to snuggle wif you! Meow ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
+                    botReply += "Nooo please come back soon :( I'm gonna miss you! ";
+                    contains = true;
+                }
+                if(!contains){
+                    if(p.hunger < 20){
+                        botReply += "I'm too hungry to understand you... please feed me!!!";
+                    }
+                    else if(p.happiness < 20){
+                        botReply += "I'm too unhappy to understand you right now... maybe come back again after this chat to talk more.";
+                    }
+                    else if(p.energy < 20){
+                        botReply += "I'm too tired to talk right now. Let me take a nap first!";
+                    }
+                    else{
+                        botReply += "I'm just a kitten, I don't know what that means!";
+                    }
 
-        if(controller.getPet().type == Pet.Type.CAT){
-            if(lowerUserMessage.contains("hi") ||lowerUserMessage.contains("hello") ){
-                botReply += "Hewwo to you too! ";
+                }
             }
-            if(lowerUserMessage.contains("how are you")){
-                botReply += "I'm doing much better now that I'm talking to you :) ";
+            else if(s == Pet.Stage.TEEN){
+                if(lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello") ){
+                    botReply += "Meow back I guess. ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("how are you")){
+                    botReply += "I'm chill or whatever. Being a teenager is rough. ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("love")){
+                    botReply += "Whateverrr I guess I love you too";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("what do you want to")){
+                    botReply += "I just wanna chill and play catch the laser with my friends. No offense to you lol. ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
+                    botReply += "Adios. Meow. ";
+                    contains = true;
+                }
+                if(!contains){
+                    if(p.hunger < 20){
+                        botReply += "I'm too hungry to understand you... please feed me.";
+                    }
+                    else if(p.happiness < 20){
+                        botReply += "I'm too unhappy to understand you right now... maybe come back again after this chat to talk more.";
+                    }
+                    else if(p.energy < 20){
+                        botReply += "I'm too tired to talk right now. Let me take a nap first!";
+                    }
+                    else{
+                        botReply += "Whateverrrrrrrr";
+                    }
+
+                }
             }
-            if(lowerUserMessage.contains("love")){
-                botReply += "I wuv you more! ";
+            else if(s == Pet.Stage.ADULT){
+                if(lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello") ){
+                    botReply += "Meow to you too! ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("how are you")){
+                    botReply += "I'm doing meowy well. Finally got a job so I moved out of my mom's cardboard box. Life's good. ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("love")){
+                    botReply += "I love you too! Meow.";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("what do you want to")){
+                    botReply += "I think I'll whack a yarn ball around. It's the trend for young professionals like me these days. ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
+                    botReply += "Yes, til tomorrow meowning. ";
+                    contains = true;
+                }
+                if(!contains){
+                    if(p.hunger < 20){
+                        botReply += "I'm too hungry to understand you... please feed me!!!";
+                    }
+                    else if(p.happiness < 20){
+                        botReply += "I'm too unhappy to understand you right now... maybe come back again after this chat to talk more.";
+                    }
+                    else if(p.energy < 20){
+                        botReply += "I'm too tired to talk right now. Let me take a nap first!";
+                    }
+                    else{
+                        botReply += "Why don't we talk about something else. Perhaps you want me to take a look at your stock profile? Just kidding let's talk about something chill. Work is too stressful.";
+                    }
+
+                }
             }
-            if(lowerUserMessage.contains("what do")){
-                botReply += "Can we go on a walk later pweaseeeeee!!!";
+            else if(s == Pet.Stage.ELDER){
+                if(lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello") ){
+                    botReply += "Meeeowww! ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("how are you")){
+                    botReply += "Feeling lazy. Being old is kind of nice. ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("love")){
+                    botReply += "I love you too. One thing I've learned throughout my long life is that you can never tell your family you love them enough. ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("what do you want to")){
+                    botReply += "I think I'll just curl up and bathe in the sun. Old cats like me have bad joints. ";
+                    contains = true;
+                }
+                if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
+                    botReply += "Don't stay away too long... Cats don't live forever, you know... ";
+                    contains = true;
+                }
+                if(!contains){
+                    if(p.hunger < 20){
+                        botReply += "I'm too hungry to understand you... please feed me!!!";
+                    }
+                    else if(p.happiness < 20){
+                        botReply += "I'm too unhappy to understand you right now... maybe come back again after this chat to talk more.";
+                    }
+                    else if(p.energy < 20){
+                        botReply += "I'm too tired to talk right now. Let me take a nap first!";
+                    }
+                    else{
+                        botReply += "I must be getting old. I can't hear ya! ";
+                    }
+
+                }
             }
-            if(lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")){
-                botReply += "Nooo please come back soon :( ";
-            }
+
         }
         else {
-            if (lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello")) {
-                botReply += "Roarrr to you too! ";
+            if(s == Pet.Stage.BABY){
+                if (lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello")) {
+                    botReply += "Wowrrr to you too! ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("love you")) {
+                    botReply += "I 🔥 you more! ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("how are you")) {
+                    botReply += "Being a baby dwagon is fire!!!! I'm doing awesum :) ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("what do")) {
+                    botReply += "Can we go on a fly through the sky later pwease!!! ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")) {
+                    botReply += "Nooo please come back soon :( I will miss you.";
+                    contains = true;
+                }
+                if(!contains){
+                    if(p.hunger < 20){
+                        botReply += "I'm too hungry to understand you... please feed me!!!";
+                    }
+                    else if(p.happiness < 20){
+                        botReply += "I'm too unhappy to understand you right now... maybe come back again after this chat to talk more.";
+                    }
+                    else if(p.energy < 20){
+                        botReply += "I'm too tired to talk right now. Let me take a nap first!";
+                    }
+                    else{
+                        botReply += "I'm just a baby I don't understand big words like that!";
+                    }
+
+                }
             }
-            if (lowerUserMessage.contains("love you")) {
-                botReply += "I 🔥 you more! ";
+            else if(s == Pet.Stage.TEEN){
+                if (lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello")) {
+                    botReply += "Roar back or whatever... ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("love you")) {
+                    botReply += "I 🔥 you too I guess. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("how are you")) {
+                    botReply += "Chill. I just posted my new wing detailing on DragonGram and got lots of likes so it's pretty chill. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("what do")) {
+                    botReply += "Tbh I'd rather fly around with my dragon friends than with you... no offense you're just kinda old lol ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")) {
+                    botReply += "Alright cool bye ";
+                    contains = true;
+                }
+                if(!contains){
+                    if(p.hunger < 20){
+                        botReply += "I'm too hungry to understand you... please feed me!!!";
+                    }
+                    else if(p.happiness < 20){
+                        botReply += "I'm too unhappy to understand you right now... maybe come back again after this chat to talk more.";
+                    }
+                    else if(p.energy < 20){
+                        botReply += "I'm too tired to talk right now. Let me take a nap first!";
+                    }
+                    else{
+                        botReply += "Whateverrrrrr ";
+                    }
+
+                }
             }
-            if (lowerUserMessage.contains("how are you")) {
-                botReply += "I'm doing much better now that I'm talking to you :) ";
+            else if(s == Pet.Stage.ADULT){
+                if (lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello")) {
+                    botReply += "Helloar! That's how they've been greeting people at my new office. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("love you")) {
+                    botReply += "I 🔥 you too! ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("how are you")) {
+                    botReply += "I'm doing swell, just made a bunch of dabloons at JP Dragon and Chase. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("what do")) {
+                    botReply += "It's been a long day at work. Let's just have a coffee. I can brew it with my own fire now lol. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")) {
+                    botReply += "Goodbye! Stay fire. ";
+                    contains = true;
+                }
+                if(!contains){
+                    if(p.hunger < 20){
+                        botReply += "I'm too hungry to understand you... please feed me!!!";
+                    }
+                    else if(p.happiness < 20){
+                        botReply += "I'm too unhappy to understand you right now... maybe come back again after this chat to talk more.";
+                    }
+                    else if(p.energy < 20){
+                        botReply += "I'm too tired to talk right now. Let me take a nap first!";
+                    }
+                    else{
+                        botReply += "Why don't we fly the conversation back to simpler terms. ";
+                    }
+
+                }
             }
-            if (lowerUserMessage.contains("what do")) {
-                botReply += "Can we go on a fly through the sky later please!!!";
-            }
-            if (lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")) {
-                botReply += "Nooo please come back soon :( I will miss you.";
+            else if(s == Pet.Stage.ELDER){
+                if (lowerUserMessage.contains("hi") || lowerUserMessage.contains("hello")) {
+                    botReply += "Hello! Apologies for the boring greeting, I can't breathe much fire these days. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("love you")) {
+                    botReply += "I 🔥 you too! Don't forget to say that to your loved ones... The only thing I regret in my old age is not saying I love you more. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("how are you")) {
+                    botReply += "Oh, you know, about as well as an ancient dragon like me can be. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("what do")) {
+                    botReply += "Recently I've been enjoying spending time with my granddragons. Want to join? Just be careful, they haven't learned to control their fire breathing yet. ";
+                    contains = true;
+                }
+                if (lowerUserMessage.contains("bye") || lowerUserMessage.contains("see you")) {
+                    botReply += "Goodbye! Don't stay away too long... dragons aren't immortal you know. ";
+                    contains = true;
+                }
+                if(!contains){
+                    if(p.hunger < 20){
+                        botReply += "I'm too hungry to understand you... please feed me!!!";
+                    }
+                    else if(p.happiness < 20){
+                        botReply += "I'm too unhappy to understand you right now... maybe come back again after this chat to talk more.";
+                    }
+                    else if(p.energy < 20){
+                        botReply += "I'm too tired to talk right now. Let me take a nap first!";
+                    }
+                    else{
+                        botReply += "I'm getting old, I don't think I know what you're saying. ";
+                    }
+
+                }
             }
         }
 
